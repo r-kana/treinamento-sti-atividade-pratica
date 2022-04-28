@@ -1,12 +1,9 @@
 class CreateCampus < ActiveRecord::Migration[6.1]
   def change
     create_table :campus do |t|
-      t.string :name
-      t.string :phone_number
-      t.string :address
-      t.string :cep 
-      t.string :city
-      t.string :neighborhood
+      t.string :name, :phone_number, :address, :city, :neighborhood
+      t.string :cep, limit: 9
+      t.boolean :active, default: true
 
       t.timestamps
     end
