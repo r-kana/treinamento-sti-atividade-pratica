@@ -5,7 +5,7 @@ default: &default
 
 development:
   <<: *default
-  database: atividade_pratica_development
+  database: vagrant
   #username: vagrant
   #password: vagrant
   #host: localhost
