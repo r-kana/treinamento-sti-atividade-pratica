@@ -1,0 +1,10 @@
+<div class='card'>
+  <div class='card-body'>
+    <h5 class='card-title'><%= college.name %></h5>
+    <h6 class=1card-subtitle mb-2 text-muted1><%= full_address(college) %></h6>
+  </div>
+  <div class="card-footer">
+    <%= link_to 'Editar', edit_college_path(college), method: :put, class: 'btn btn-warning' %>
+    <%= link_to 'Deletar', college_path(college), method: :delete, data: {confirm: "Tem certeza?"}, class: 'btn btn-danger'%>
+  </div>
+</div>

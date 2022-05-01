@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  resource :college
+  resources :colleges
 end

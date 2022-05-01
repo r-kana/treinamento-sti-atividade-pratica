@@ -36,17 +36,17 @@ RSpec.describe College, type: :model do
     end
     it 'is valid with 9 char cep' do
       college = build(:college)
-      expect(college.cep.lenght).to eq(9)
+      expect(college.cep.length).to eq(9)
       expect(college.valid?).to be(true)
     end
     it 'is valid with 10 char cep' do
       college = build(:college, cep: "0000000000")
-      expect(college.cep.lenght).to eq(10)
+      expect(college.cep.length).to eq(10)
       expect(college.valid?).to be(false)
     end
     it 'is invalid with 8 char cep' do
       college = build(:college, cep: "00000000")
-      expect(college.cep.lenght).to eq(8)
+      expect(college.cep.length).to eq(8)
       expect(college.valid?).to be(false)
     end
     it 'is invalid with unformatted phone_number' do

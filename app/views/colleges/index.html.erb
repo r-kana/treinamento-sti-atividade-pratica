@@ -1,0 +1,9 @@
+<section>  
+  <div class='container'>
+    <ul>
+      <% @colleges.each do |college| %>
+        <%= render 'campus_card', college: college %>
+      <% end %>
+    </ul>
+  </div>
+</section>
