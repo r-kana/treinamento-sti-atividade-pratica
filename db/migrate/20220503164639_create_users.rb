@@ -5,6 +5,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :name
       t.string :iduff
       t.string :cpf
+      t.boolean :admin, :active
 
       t.timestamps
     end

@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.password = user_create_params[:user][:cpf]
+    @user.active = true
     respond_to do |format|
       if @user.save
         format.html { redirect_to user_url(@user), notice: "User was successfully created." }
@@ -51,10 +52,10 @@ class UsersController < ApplicationController
     end
 
     def user_update_params
-      params.require(:user).permit(:name, :iduff, :cpf, :password)
+      params.require(:user).permit(:name, :iduff, :cpf, :password, :active, :admin)
     end
 
     def user_create_params
-      params.require(:user).permit(:name, :iduff, :cpf)
+      params.require(:user).permit(:name, :iduff, :cpf, :admin)
     end
 end

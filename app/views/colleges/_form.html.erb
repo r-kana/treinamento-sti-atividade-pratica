@@ -17,8 +17,8 @@
     <%= form.text_field :city %>
     <%= form.telephone_field :phone_number, placeholder: '(00) 0000-0000' %>
     <%= form.text_field :cep, placeholder: '00000-000' %>
-    <%= form.check_box :pet_cat, checked: true %>
-    <%= form.label :pet_cat, "Ativo:" %>
+    <%= form.check_box :active, checked: true %>
+    <%= form.label :active, "Ativo:" %>
 
     <div>
       <%= form.submit 'Salvar', class: 'btn primary' %>
