@@ -1,0 +1,30 @@
+<% if college.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(college.errors.count, "error") %> proibiram esse campus de ser salvo:</h2>
+    <ul>
+      <% college.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class= 'container'>
+  <%= form_with model: college do |form| %>
+    <%= form.text_field :name %>
+    <%= form.text_field :address %>
+    <%= form.text_field :neighborhood %>
+    <%= form.text_field :city %>
+    <%= form.telephone_field :phone_number, placeholder: '(00) 0000-0000' %>
+    <%= form.text_field :cep, placeholder: '00000-000' %>
+    <%= form.check_box :active, checked: true %>
+    <%= form.label :active, "Ativo:" %>
+
+    <div>
+      <%= form.submit 'Salvar', class: 'btn primary' %>
+      <%= link_to 'Voltar', colleges_path %>
+    <div>
+  <%= end %>
+</div>
+  
+

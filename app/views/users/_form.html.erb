@@ -1,0 +1,30 @@
+<% if user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(user.errors.count, "error") %> proibiram esse usuário de ser salvo:</h2>
+    <ul>
+      <% user.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class= 'container'>
+  <%= form_with model: user do |form| %>
+    <%= form.text_field :name %>
+    <%= form.text_field :cpf %>
+    <%= form.text_field :iduff %>
+    <% if user.active.present? %>
+      <%= form.check_box :active, checked: true%>
+      <%= form.label :active, "Ativo:" %>
+    <% end %>
+    <% if current_user.admin? %>
+      <%= form.check_box :admin %>
+      <%= form.label :admin, "Admin:" %>
+    <% end %>
+    <div>
+      <%= form.submit 'Salvar', class: 'btn primary' %>
+      <%= link_to 'Voltar', users_path %>
+    <div>
+  <%= end %>
+</div>
