@@ -8,6 +8,10 @@ class CollegesController < ApplicationController
   def show
   end
 
+  def new
+    @college = College.new
+  end
+
   def create 
     @college = College.new(college_params)
     @college.active ||= true

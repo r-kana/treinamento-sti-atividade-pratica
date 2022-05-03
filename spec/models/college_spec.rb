@@ -54,7 +54,7 @@ RSpec.describe College, type: :model do
       expect(college.valid?).to be(false)
     end
     it 'is valid with formatted phone_number' do
-      college = build(:college, phone_number: "21 9999-9999")
+      college = build(:college, phone_number: "219999-9999")
       expect(college.valid?).to be(true)
     end
   end

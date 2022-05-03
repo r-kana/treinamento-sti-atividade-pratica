@@ -1,8 +1,10 @@
+<h1>Campi</h1>
+<%= link_to 'Novo', new_college_path, class: 'btn warning-outline'%>
 <section>  
   <div class='container'>
     <ul>
       <% @colleges.each do |college| %>
-        <%= render 'campus_card', college: college %>
+        <%= render 'college_card', college: college %>
       <% end %>
     </ul>
   </div>

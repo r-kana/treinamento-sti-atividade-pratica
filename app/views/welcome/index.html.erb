@@ -1,0 +1,22 @@
+<div class='container'>
+  
+  <h1>Carona UFF</h1>
+  
+  <% if user&.errors.any? %>
+    <div>
+      <ul>
+        <% user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %> 
+
+  <%= form_with url: '/login', method: :post, class: '' do |form| %>
+    
+    <%= form.email_field :iduff, placeholder: 'Login', class: '', autofocus: true %>
+    <%= form.password_field :password, placeholder: 'Senha', class: '' %>
+
+    <%= f.submit 'Entrar', class: 'btn primary' %>
+  <% end %>
+</div>

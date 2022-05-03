@@ -1,0 +1,15 @@
+<h1>Usuários</h1>
+<%= link_to 'Novo', new_user_path, class: 'btn warning-outline'%>
+<section>  
+  <div class='container'>
+    <ul>
+      <% @users.each do |user| %>
+        <%= render 'user_card', college: user %>
+      <% end %>
+    </ul>
+  </div>
+</section>
+ 
+<br>
+
+
