@@ -1,13 +1,23 @@
 class RidesController < ApplicationController
-  before_action :set_ride, only: %i[ show edit update destroy ]
+  before_action :set_ride, only: %i[ show edit update destroy book ]
 
    # GET /search?departure=''&destination=''&to_college=''
   def search
     @rides = Rides.search(params)
   end
 
+  def book
+    respond_to do |format|
+      if @rides.book_seat
+        format.html { redirect_to ride_url(@ride), notice: "Ride was successfully booked." }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def index
-    @rides = Ride.availables
+    @rides = Ride.availables.where(driver: @current_user)
   end
 
   def show
