@@ -1,21 +1,36 @@
 class Ride < ApplicationRecord
-  belongs_to :departure, class_name: :Waypoint
-  belongs_to :destination, class_name: :Waypoint
   has_many :waypoints
-  belongs_to :user
+  belongs_to :driver, class_name: :User
 
   def self.availables
-    Rides.all.where('active = ? and full = ? and date >= ?', true, false, Date.today).order(:date)
+    Ride.all.where('active = ? and rides.full = ? and date <= ?', true, false, Date.today).order(:date)
   end
 
   def self.search (query)
-    # TODO Implementar busca via query params
-    Rides.availables.joins(:destination, :departure)
-                    .where('destination.neighborhood = ? or departure.neighborhood = ?',  
-                            query[:destination], query[:departure]))
+    if query[:destination].nil? and query[:departure].nil?
+      Ride.availables
+    else
+      Ride.availables.where('destination_neighborhood = ? or departure_neighborhood = ?',  
+                             query[:destination], query[:departure])
+    end
   end
+  
   def book_seat
     self.number_of_passagers += 1
-    self.full = true if self.seats == self.number_of_passagers
-    return self.update(full: self.full, number_of_passagers: self.number_of_passagers)
+    return self.update(full: (self.seats == self.number_of_passagers), 
+                       number_of_passagers: self.number_of_passagers)
+  end
+
+  def departure
+    self.waypoints.where(type: :departure)
+  end
+
+  def destination
+    self.waypoints.where(type: :destination)
+  end
+
+  def stops
+    self.waypoints.where(type: :stop)
+  end
+
 end

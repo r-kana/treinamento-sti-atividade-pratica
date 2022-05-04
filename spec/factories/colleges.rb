@@ -6,8 +6,9 @@ FactoryBot.define do
     neighborhood {Faker::Address.community} 
     city {Faker::Address.city}
     cep {"#{Faker::Number.number(digits: 5)}-#{Faker::Number.number(digits: 3)}"}
-  end
-  trait :inactive do 
-    active {false}
+    
+    trait :inactive do 
+      active {false}
+    end
   end
 end
