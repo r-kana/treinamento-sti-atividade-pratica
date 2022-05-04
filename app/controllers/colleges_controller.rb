@@ -12,6 +12,9 @@ class CollegesController < ApplicationController
     @college = College.new
   end
 
+  def edit
+  end
+
   def create 
     @college = College.new(college_params)
     @college.active ||= true
