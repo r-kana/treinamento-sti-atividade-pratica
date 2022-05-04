@@ -30,7 +30,7 @@ class CollegesController < ApplicationController
   def update
     respond_to do |format|
       if @college.update(colleg_params)
-        format.html { redirect_to @college }
+        format.html { redirect_to college_url(@college) }
       else
         format.html { render :edit }
       end

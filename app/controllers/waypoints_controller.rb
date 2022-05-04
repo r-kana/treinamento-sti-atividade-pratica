@@ -1,8 +1,8 @@
 class WaypointsController < ApplicationController
   before_action :set_waypoint, only: %i[ update destroy ]
+ 
 
 
-  # POST /waypoints or /waypoints.json
   def create
     @waypoint = Waypoint.new(waypoint_params)
 
@@ -17,11 +17,11 @@ class WaypointsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /waypoints/1 or /waypoints/1.json
   def update
+    # TODO Retorno em json
     respond_to do |format|
       if @waypoint.update(waypoint_params)
-        format.html { redirect_to waypoint_url(@waypoint), notice: "Waypoint was successfully updated." }
+        format.html { redirect_to waypoint_url(@waypoint), notice: "Waypoint was successfully updated." } 
         format.json { render :show, status: :ok, location: @waypoint }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -30,8 +30,8 @@ class WaypointsController < ApplicationController
     end
   end
 
-  # DELETE /waypoints/1 or /waypoints/1.json
   def destroy
+    # TODO Retorno em json
     @waypoint.destroy
 
     respond_to do |format|

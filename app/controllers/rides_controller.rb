@@ -1,13 +1,17 @@
 class RidesController < ApplicationController
   before_action :set_ride, only: %i[ show edit update destroy ]
 
-  # GET /rides or /rides.json
-  def index
-    @rides = Ride.all
+   # GET /search?departure=''&destination=''&to_college=''
+  def search
+    @rides = Rides.search(params)
   end
 
-  # GET /rides/1 or /rides/1.json
+  def index
+    @rides = Ride.availables
+  end
+
   def show
+    @waypoints = @ride.waypoints
   end
 
   # GET /rides/new
@@ -39,10 +43,8 @@ class RidesController < ApplicationController
     respond_to do |format|
       if @ride.update(ride_params)
         format.html { redirect_to ride_url(@ride), notice: "Ride was successfully updated." }
-        format.json { render :show, status: :ok, location: @ride }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @ride.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -50,10 +52,8 @@ class RidesController < ApplicationController
   # DELETE /rides/1 or /rides/1.json
   def destroy
     @ride.destroy
-
     respond_to do |format|
       format.html { redirect_to rides_url, notice: "Ride was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 
