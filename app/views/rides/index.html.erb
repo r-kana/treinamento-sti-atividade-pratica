@@ -1,25 +1,14 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Rides</h1>
+<section>  
+  <div class='container'>
+    <ul>
+      <% @rides.each do |ride| %>
+        <%= render 'ride_card', ride: ride, user: @driver %>
+      <% end %>
+    </ul>
+  </div>
+</section>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @rides.each do |ride| %>
-      <tr>
-        <td><%= link_to 'Show', ride %></td>
-        <td><%= link_to 'Edit', edit_ride_path(ride) %></td>
-        <td><%= link_to 'Destroy', ride, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Ride', new_user_ride_path(@user) %>
+<%= link_to 'New Ride', new_user_ride_path(@driver) %>

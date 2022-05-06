@@ -17,97 +17,107 @@ RSpec.describe "/rides", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Ride. As you add validations to Ride, be sure to
   # adjust the attributes here as well.
-  let(:college) {create(:college)}
-  let(:driver) {create(:user)}
+  let!(:college) {create(:college)}
+  let!(:driver) {create(:user)}
   let(:valid_attributes) {
     {
-      observation: " ", seats: 4, date: Date.today + 1, time: Time.now, 
-      to_college: false, active: true, price: 0.0, driver: driver, college_id: college.id
+      observation: " ", seats: 4, date: "10/05/2022", time: "20:30:00", 
+      to_college: false, price: 0.0, driver_id: driver.id, college_id: college.id
     }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { observation: " ", seats: nil, date: nil, time: nil, to_college: nil, price: nil }
   }
 
-  describe "GET user/:id/index" do
+  describe "GET user/:user_id/index" do
     it "renders a successful response" do
+      create(:ride, driver: driver, college_id: college.id)
+
+      get user_rides_url(driver)
+      expect(response).to be_successful
+    end
+
+    it "renders a template for :index" do
+      get user_rides_url(driver)
+      expect(response.content_type).to start_with("text/html")
+      expect(response).to render_template(:index)
+    end
+  end
+
+  describe "GET users/:user_id/new" do
+    it "renders a successful response with :new template" do
+      get new_user_ride_url(driver)
+      expect(response).to be_successful
+      expect(response).to render_template(:new)
+    end
+  end
+
+  describe "GET users/:user_id/edit/:id" do
+    it "renders a successful response with :edit template" do
       ride = create(:ride, driver: driver, college_id: college.id)
-
-      get user_rides_path(driver)
+      get edit_user_ride_url(driver, ride)
       expect(response).to be_successful
+      expect(response).to render_template(:edit)
     end
   end
 
-  describe "GET /show" do
-    xit "renders a successful response" do
-      ride = Ride.create! valid_attributes
-      get ride_url(ride)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /new" do
-    xit "renders a successful response" do
-      get new_ride_url
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /edit" do
-    xit "renders a successful response" do
-      ride = Ride.create! valid_attributes
-      get edit_ride_url(ride)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "POST /create" do
+  describe "POST users/:user_id/create" do
     context "with valid parameters" do
-      xit "creates a new Ride" do
+      it "creates a new Ride" do
         expect {
-          post rides_url, params: { ride: valid_attributes }
+          post user_rides_url(driver), params: { ride: valid_attributes }
         }.to change(Ride, :count).by(1)
       end
 
-      xit "redirects to the created ride" do
-        post rides_url, params: { ride: valid_attributes }
-        expect(response).to redirect_to(ride_url(Ride.last))
+      it "redirects to the created ride" do
+        post user_rides_url(driver), params: { ride: valid_attributes }
+
+        expect(response).to redirect_to(user_ride_path(driver, Ride.last))
+        follow_redirect!  
+        expect(response).to render_template(:show)
+        expect(response.body).to include("Ride was successfully created.")
       end
     end
 
     context "with invalid parameters" do
-      xit "does not create a new Ride" do
+      it "does not create a new Ride" do
         expect {
-          post rides_url, params: { ride: invalid_attributes }
+          post user_rides_url(driver), params: { ride: invalid_attributes }
         }.to change(Ride, :count).by(0)
       end
 
-      xit "renders a successful response (i.e. to display the 'new' template)" do
-        post rides_url, params: { ride: invalid_attributes }
-        expect(response).to be_successful
+      it "renders :new template" do
+        post user_rides_url(driver), params: { ride: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template(:new)
       end
     end
   end
 
-  describe "PATCH /update" do
+  describe "PATCH users/:user_id/update/:id" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          observation: "Nova observação", seats: 4, date: "11/05/2022", time: "18:30:00", 
+          to_college: false, price: 0.0, driver_id: driver.id, college_id: college.id
+        }
       }
 
-      xit "updates the requested ride" do
-        ride = Ride.create! valid_attributes
-        patch ride_url(ride), params: { ride: new_attributes }
+      it "updates the requested ride" do
+        ride = create(:ride, driver: driver, college_id: college.id)
+        patch user_ride_url(driver, ride), params: { ride: new_attributes }
         ride.reload
-        skip("Add assertions for updated state")
+        expect(response).to redirect_to(user_ride_url(driver, ride))
       end
 
-      xit "redirects to the ride" do
-        ride = Ride.create! valid_attributes
-        patch ride_url(ride), params: { ride: new_attributes }
+      it "redirects to the ride" do
+        ride = create(:ride, driver: driver, college_id: college.id)
+        patch user_ride_url(driver, ride), params: { ride: new_attributes }
         ride.reload
-        expect(response).to redirect_to(ride_url(ride))
+        expect(response).to redirect_to(user_ride_url(driver, ride))
+        follow_redirect!
+        expect(response).to render_template(:show)
       end
     end
 
@@ -120,7 +130,7 @@ RSpec.describe "/rides", type: :request do
     end
   end
 
-  describe "DELETE /destroy" do
+  describe "DELETE users?:uder_id/destroy/:id" do
     xit "destroys the requested ride" do
       ride = Ride.create! valid_attributes
       expect {

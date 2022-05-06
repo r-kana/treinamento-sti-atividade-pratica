@@ -1,6 +1,6 @@
 <h1>Editing Ride</h1>
 
-<%= render 'form', ride: @ride %>
+<%= render 'form', ride: @ride , user: @driver%>
 
 <%= link_to 'Show', @ride %> |
-<%= link_to 'Back', rides_path %>
+<%= link_to 'Back', user_rides_path(@driver) %>
