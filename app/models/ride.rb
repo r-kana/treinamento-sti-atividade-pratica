@@ -1,6 +1,7 @@
 class Ride < ApplicationRecord
   has_many :waypoints
   belongs_to :driver, class_name: :User
+  has_many :users, through: :reservation
 
   validates :time, :date, :price, :college_id, :driver_id, presence: true
   validates :seats, presence: true, numericality: { greater_than: 0, only_integer: true }

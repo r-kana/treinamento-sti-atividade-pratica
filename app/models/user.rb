@@ -3,7 +3,7 @@ class User < ApplicationRecord
   validates :iduff, format: {with: /[\w\.\-]+@id\.uff\.br/s}, uniqueness: true
   validates :cpf, format: {with: /\d{3}\.\d{3}\.\d{3}\-\d{2}/s}, uniqueness: true
 
-  has_many :rides, dependent: :destroy
+  has_many :rides, through: :reservation
 
   def active_rides
     self.rides.where(active: true)
