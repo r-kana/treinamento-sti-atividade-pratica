@@ -10,7 +10,8 @@ class CreateRides < ActiveRecord::Migration[6.1]
       t.boolean    :to_college,          null: false
       t.boolean    :full,                default: false, null: false
       t.boolean    :active,              default: true,  null: false
-      t.references :college,           foreing_key: true
+      t.float      :price,               default: 0, precision: 2, scale: 5
+      t.references :college,             foreing_key: true, null: false
       t.references :driver
 
       t.timestamps

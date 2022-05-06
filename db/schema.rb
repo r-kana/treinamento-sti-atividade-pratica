@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_03_212333) do
+ActiveRecord::Schema.define(version: 2022_05_03_200112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,7 +38,8 @@ ActiveRecord::Schema.define(version: 2022_05_03_212333) do
     t.boolean "to_college", null: false
     t.boolean "full", default: false, null: false
     t.boolean "active", default: true, null: false
-    t.bigint "college_id"
+    t.float "price", default: 0.0
+    t.bigint "college_id", null: false
     t.bigint "driver_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -63,13 +64,12 @@ ActiveRecord::Schema.define(version: 2022_05_03_212333) do
     t.string "neighborhood", null: false
     t.integer "order", default: 0, null: false
     t.boolean "is_college", null: false
-    t.integer "type", limit: 2, null: false
+    t.integer "kind", limit: 2, null: false
+    t.bigint "ride_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "rides_id"
-    t.index ["rides_id"], name: "index_waypoints_on_rides_id"
+    t.index ["ride_id"], name: "index_waypoints_on_ride_id"
   end
 
   add_foreign_key "rides", "users", column: "driver_id"
-  add_foreign_key "waypoints", "rides", column: "rides_id"
 end
