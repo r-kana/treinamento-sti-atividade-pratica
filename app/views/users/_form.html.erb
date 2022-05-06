@@ -11,20 +11,27 @@
 
 <div class= 'container'>
   <%= form_with model: user do |form| %>
-    <%= form.text_field :name %>
-    <%= form.text_field :cpf %>
-    <%= form.text_field :iduff %>
-    <% if user.active.present? %>
-      <%= form.check_box :active, checked: true%>
-      <%= form.label :active, "Ativo:" %>
-    <% end %>
-    <% if current_user.admin? %>
-      <%= form.check_box :admin %>
-      <%= form.label :admin, "Admin:" %>
-    <% end %>
+      <% if @current_user.admin? %>
+        <%= form.text_field :name, class:'form-control' %>
+        <%= form.text_field :cpf, class:'form-control', placeholder: '111.111.111-11' %>
+        <%= form.email_field :iduff, class:'form-control', placeholder: 'exemplo@id.uff.br'  %>
+        <% if user.id %>
+          <%= form.password_field :password, class: 'form-control'%>
+        <% end %>
+        <%= form.check_box :active, checked: user.active%>
+        <%= form.label :active, "Ativo:" %>
+        <%= form.check_box :admin %>
+        <%= form.label :admin, "Admin:" %>
+      <% else %>
+        <%= form.text_field :name, readonly: true %>
+        <%= form.text_field :cpf, readonly: true%>
+        <%= form.email_field :iduff, readonly: true %>
+        <%= form.password_field :password, class: 'form-control'%>
+      <% end %>
+
     <div>
-      <%= form.submit 'Salvar', class: 'btn primary' %>
-      <%= link_to 'Voltar', users_path %>
+      <%= form.submit 'Salvar', class: 'btn btn-success' %>
+      <%= link_to 'Voltar', users_path, class: 'btn btn-secondary', type: 'button' %>
     <div>
-  <%= end %>
+  <% end %>  
 </div>

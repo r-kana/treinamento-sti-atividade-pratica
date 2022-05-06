@@ -1,4 +1,5 @@
 class CollegesController < ApplicationController
+  before_action :user_from_cookie
   before_action :set_college, only: [:show, :update, :destroy]
   
   def index
@@ -12,12 +13,15 @@ class CollegesController < ApplicationController
     @college = College.new
   end
 
+  def edit
+  end
+
   def create 
     @college = College.new(college_params)
     @college.active ||= true
     respond_to do |format|
       if @college.save
-        format.html { redirect_to @college, notice: 'Campus criado com sucesso.' }
+        format.html { redirect_to colleges_url, notice: 'Campus criado com sucesso.' }
       else
         format.html { render :new }
       end
@@ -27,7 +31,7 @@ class CollegesController < ApplicationController
   def update
     respond_to do |format|
       if @college.update(colleg_params)
-        format.html { redirect_to @college }
+        format.html { redirect_to college_url(@college) }
       else
         format.html { render :edit }
       end

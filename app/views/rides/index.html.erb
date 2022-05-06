@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Rides</h1>
+<%= link_to 'New Ride', new_user_ride_path(@current_user) %>
+<section>  
+  <div class='container'>
+    <ul>
+      <% @rides.each do |ride| %>
+        <%= render 'ride_card', ride: ride, user: @current_user %>
+      <% end %>
+    </ul>
+  </div>
+</section>
+

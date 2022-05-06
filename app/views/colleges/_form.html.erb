@@ -11,18 +11,18 @@
 
 <div class= 'container'>
   <%= form_with model: college do |form| %>
-    <%= form.text_field :name %>
-    <%= form.text_field :address %>
-    <%= form.text_field :neighborhood %>
-    <%= form.text_field :city %>
-    <%= form.telephone_field :phone_number, placeholder: '(00) 0000-0000' %>
-    <%= form.text_field :cep, placeholder: '00000-000' %>
-    <%= form.check_box :active, checked: true %>
-    <%= form.label :active, "Ativo:" %>
+    <%= form.text_field :name, class:'control-form'%>
+    <%= form.text_field :address, class:'control-form' %>
+    <%= form.text_field :neighborhood, class:'control-form' %>
+    <%= form.text_field :cit, class:'control-form'%>
+    <%= form.telephone_field :phone_number, placeholder: '(00) 0000-0000', class:'control-form' %>
+    <%= form.text_field :cep, placeholder: '00000-000', class:'control-form' %>
+    <%= form.check_box :active, checked: true, class:'form-check-input' %>
+    <%= form.label :active, "Ativo:", class:'form-label' %>
 
-    <div>
-      <%= form.submit 'Salvar', class: 'btn primary' %>
-      <%= link_to 'Voltar', colleges_path %>
+    <div class='d-flex'>
+      <%= form.submit 'Salvar', class: 'btn btn-success', type: 'button' %>
+      <%= link_to 'Voltar', colleges_path, class: 'btn btn-secondary', type: 'button' %>
     <div>
   <%= end %>
 </div>
