@@ -11,7 +11,24 @@
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+<div class= 'container'>
+  <%= form_with model: college do |form| %>
+    <%= form.text_field class:'control-form', placeholder: "Bairro", id:"address_1"%>
+    <%= form.select, Campus.all.collect { |p| [ p.address, p.id ] }, include_blank: "Campi", id:"address_2" %>
+    <%= form.hidden_field :departure %>
+    <%= form.hiddden_field :destination %>
+    <%= form.check_box :to_college, checked: true, class:'form-check-input' %>
+    <%= form.label :active, "Indo para campus", class:'form-label' %>
+    <%= form.number_field :seats, class:'control-form' %>
+    <%= form.number_field :price, class:'control-form' %>
+    <%= form.date_field :date, class:'control-form' %>
+    <%= form.time_field :time, class:'control-form' %>
+
+    <div class='d-flex'>
+      <%= form.submit 'Salvar', class: 'btn btn-success', type: 'button' %>
+      <%= link_to 'Voltar', colleges_path, class: 'btn btn-secondary', type: 'button' %>
+    <div>
+  <%= end %>
+</div>
 <% end %>
+<%= javascript_pack_tag 'rides' %>

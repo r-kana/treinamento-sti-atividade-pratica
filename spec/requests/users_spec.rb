@@ -17,17 +17,18 @@ RSpec.describe "/users", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
+  let!(:user) {create(:user)}
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {name: "Nome", iduff: "exemplo@id.uff.br", cpf: "111.111.111-11", admin: false}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {name: "Nome", iduff: "exemplo@gmail.com", cpf: "11.1.11-11", admin: false}
   }
 
   describe "GET /index" do
     it "renders a successful response" do
-      User.create! valid_attributes
+      user
       get users_url
       expect(response).to be_successful
     end
@@ -35,7 +36,6 @@ RSpec.describe "/users", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      user = User.create! valid_attributes
       get user_url(user)
       expect(response).to be_successful
     end
@@ -45,14 +45,17 @@ RSpec.describe "/users", type: :request do
     it "renders a successful response" do
       get new_user_url
       expect(response).to be_successful
+      expect(response.content_type).to start_with('text/html')
+      expect(response).to render_template(:new)
     end
   end
 
   describe "GET /edit" do
     it "renders a successful response" do
-      user = User.create! valid_attributes
       get edit_user_url(user)
       expect(response).to be_successful
+      expect(response.content_type).to start_with('text/html')
+      expect(response).to render_template(:edit)
     end
   end
 
@@ -67,7 +70,17 @@ RSpec.describe "/users", type: :request do
       it "redirects to the created user" do
         post users_url, params: { user: valid_attributes }
         expect(response).to redirect_to(user_url(User.last))
+        follow_redirect!
+        expect(response.content_type).to start_with('text/html')
+        expect(response).to render_template(:show)
       end
+
+      it "to set password to cpf" do
+        post users_url, params: { user: valid_attributes }
+        user = User.last
+        expect(user.authenticate(user.cpf)).to be(true)
+      end
+
     end
 
     context "with invalid parameters" do
@@ -80,6 +93,7 @@ RSpec.describe "/users", type: :request do
       it "renders a successful response (i.e. to display the 'new' template)" do
         post users_url, params: { user: invalid_attributes }
         expect(response).to be_successful
+        expect(response).to redirect_to(new_user_path)
       end
     end
   end
@@ -87,14 +101,12 @@ RSpec.describe "/users", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {name: "Nome", iduff: "modificado@id.uff.br", cpf: "111.111.111-11", admin: false}
       }
 
       it "updates the requested user" do
-        user = User.create! valid_attributes
         patch user_url(user), params: { user: new_attributes }
-        user.reload
-        skip("Add assertions for updated state")
+        expect{user.reload}.to change(user, :iduff).from("exemplo@id.uff.br").to("modificado@id.uff.br")
       end
 
       it "redirects to the user" do

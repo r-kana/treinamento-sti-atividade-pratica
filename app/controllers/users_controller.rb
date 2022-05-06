@@ -1,13 +1,14 @@
 class UsersController < ApplicationController
+  before_action :user_from_cookie
   before_action :set_user, only: %i[ show edit update destroy rides ]
 
   def index
     @users = User.all
   end
-
+  # User as a driver
   def rides
-    @rides = 
-
+    @rides = @current_user.rides
+  end
   def show
   end
 
@@ -19,12 +20,12 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    @user.password = user_create_params[:user][:cpf]
+    @user = User.new(user_create_params)
+    @user.password = user_create_params[:cpf]
     @user.active = true
     respond_to do |format|
       if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
+        format.html { redirect_to users_url, notice: "User was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -34,7 +35,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_update_params)
-        format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
+        format.html { redirect_to users_url, notice: "User was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end

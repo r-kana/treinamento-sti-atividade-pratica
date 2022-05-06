@@ -1,0 +1,20 @@
+<h1>Procurar Rides</h1>
+<section>  
+  <div class='container'>
+    <%= form_with url: search_rides_path do |form| %>
+      <%= form.text_field class:'control-form', placeholder: "Bairro", id:"address_1"%>
+      <%= form.select College.all.collect { |p| [ p.address, p.id ] }, include_blank: "Campi", id:"address_2" %>
+      <%= form.check_box :to_college, checked: true, class:'form-check-input' %>
+
+      <%= form.hidden_field :departure %>
+      <%= form.hidden_field :destination %>
+      <%= form.submit 'Pesquisar', class: 'btn btn-primary', type: 'button' %>
+    <% end %>
+    <ul>
+      <% @rides.each do |ride| %>
+        <%= render 'ride_card', ride: ride %>
+      <% end %>
+    </ul>
+  </div>
+</section>
+<%= #javascript_pack_tag 'rides' %>

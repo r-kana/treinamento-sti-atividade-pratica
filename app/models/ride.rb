@@ -30,7 +30,7 @@ class Ride < ApplicationRecord
   end
 
   def departure
-    self.fwaypoints.where(kind: :departure).first
+    self.waypoints.where(kind: :departure).first
   end
 
   def destination
