@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  skip_before_action :user_from_cookie, only: [:index, :home]
+  skip_before_action :user_from_cookie
   
   def index
   end
