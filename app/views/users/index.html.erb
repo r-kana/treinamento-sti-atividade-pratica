@@ -1,25 +1,28 @@
 <div class='d-flex flex-row justify-content-between align-items-center'>
   <h1>Usuários</h1>
-  <%= link_to 'Novo', new_user_path, class: 'btn btn-info'%>
+  <%= link_to 'Novo', new_user_path, class: 'btn btn-info' %>
 </div>
 
-<%= form_with url: users_url do |form| %>
-  <div class='input-group'>
-    <%= form.label :term, 'Pesquisar: ' class:'me-2'%>
-    <%= form.text_field :term, class:'form-control', placeholder:'Nome, CPF ou IdUFF'%>
-    <%= form.submit 'Procurar', class:'btn btn-outline-success'%>
+<section class='d-flex flex-column align-items-center'> 
+  <div class='w-75 p-3'>
+    <%= form_with url: users_url do |form| %>
+      <div class='input-group'>
+        <%= form.text_field :term, class:'form-control', placeholder:'Nome, CPF ou IdUFF' %>
+        <%= form.submit 'Procurar', class:'btn btn-outline-success' %>
+      </div>
+    <% end %>
   </div>
-<% end %>
-
-
-<section class='d-flex justify-content-center'>  
   <ul class='w-75 p-3'>
     <% @users.each do |user| %>
       <%= render 'user_card', user: user %>
     <% end %>
   </ul>
 </section>
- 
+
+<script>
+const users = <%= @users %>
+</script>
+
 <%= javascript_pack_tag 'users' %>
 
 

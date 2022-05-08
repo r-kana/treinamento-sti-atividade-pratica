@@ -4,11 +4,16 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    respond_to do |format|
+      format.html { render :index }
+      format.json { @users }
+    end
   end
-  # User as a driver
+
   def rides
     @rides = @current_user.rides
   end
+
   def show
   end
 
