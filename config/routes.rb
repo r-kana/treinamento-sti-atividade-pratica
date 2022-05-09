@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root to: 'welcome#index', as: :welcome
   resources :waypoints, only: [:create, :update, :destroy]
-  resources :colleges
+  resources :colleges, except: [:destroy, :show]
   resources :users, except: [:destroy] do 
     resources :rides
   end
@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   get '/rides/:id', to: 'rides#search_show', as: :search_ride
   post '/login', to: 'authenticate#login', as: :login
   get '/logout', to: 'authenticate#logout', as: :logout
-  get '/users/:id/toggle_active', to: 'users#toggle_active', as: :toggle_active
+  get '/users/:id/toggle_active', to: 'users#toggle_active', as: :user_toggle_active
+  get '/colleges/:id/toggle_active', to: 'colleges#toggle_active', as: :college_toggle_active
 end

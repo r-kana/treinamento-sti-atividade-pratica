@@ -1,11 +1,20 @@
-<div class='card'>
-  <div class='card-body'>
-    <h5 class='card-title'><%= college.name %></h5>
-    <h6 class='1card-subtitle mb-2 text-muted1'><%= full_address(college) %></h6>
-    <p class="card-text"><%= "Contato: #{college.phone_number}" %></p>
-  </div>
-  <div class="card-footer">
-    <%= link_to 'Editar', edit_college_path(college), method: :put, class: 'btn btn-outline-warning', type: 'button' %>
-    <%= link_to 'Deletar', college, method: :delete, data: {confirm: "Tem certeza?"}, class: 'btn btn-danger', type: 'button' %>
+<div class='card mb-4'>
+  <div class='card-body d-flex flex-row justify-content-between container align-items-center'>
+    <div class='d-flex flex-column justify-content-between'>
+      <div class='d-flex align-items-center'>
+        <h4 class='card-title mb-3 mt-3 me-3'><%= college.name %></h4>
+        <p class="fw-bold text-danger m-0"><%= college.active? ? nil : "Desativado" %></p>
+      </div>
+      <h6 class='card-subtitle mb-3 ms-2 text-muted'>Endereço: <%= full_address(college) %></h6>
+      <h6 class="card-subtitle mb-3 ms-2 text-muted">Número: <%= college.phone_number %></h6>
+    </div>
+    <div class='d-flex flex-column'>
+      <%= link_to 'Editar', edit_college_path(college), class: 'btn btn-outline-warning mb-3' %>
+      <% if college.active? %>
+        <%= link_to 'Desativar', college_toggle_active_path(college), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-danger' %>
+      <% else %>
+        <%= link_to 'Reativar', college_toggle_active_path(college), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-success' %>
+      <% end %>
+    </div>
   </div>
 </div>

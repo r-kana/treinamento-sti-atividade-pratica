@@ -8,23 +8,30 @@
     </ul>
   </div>
 <% end %>
-
-<div class= 'container'>
-  <%= form_with model: college do |form| %>
-    <%= form.text_field :name, class:'control-form'%>
-    <%= form.text_field :address, class:'control-form' %>
-    <%= form.text_field :neighborhood, class:'control-form' %>
-    <%= form.text_field :cit, class:'control-form'%>
-    <%= form.telephone_field :phone_number, placeholder: '(00) 0000-0000', class:'control-form' %>
-    <%= form.text_field :cep, placeholder: '00000-000', class:'control-form' %>
-    <%= form.check_box :active, checked: true, class:'form-check-input' %>
-    <%= form.label :active, "Ativo:", class:'form-label' %>
-
-    <div class='d-flex'>
-      <%= form.submit 'Salvar', class: 'btn btn-success', type: 'button' %>
-      <%= link_to 'Voltar', colleges_path, class: 'btn btn-secondary', type: 'button' %>
-    <div>
-  <%= end %>
-</div>
+<section>
+  <div class='d-flex flex-column w-25 ms-3'>
+    <%= form_with model: college do |form| %>
+      <%= form.label :name, "Nome:", class:'form-label' %>
+      <%= form.text_field :name, class:'control-form mb-3 form-control-sm'%>
+      <%= form.label :address, "Endereço:", class:'form-label' %>
+      <%= form.text_field :address, class:'control-form mb-3 form-control-sm' %>
+      <%= form.label :neighborhood, "Bairro:", class:'form-label' %>
+      <%= form.text_field :neighborhood, class:'control-form mb-3 form-control-sm' %>
+      <%= form.label :cit, "Cidade:", class:'form-label' %>
+      <%= form.text_field :cit, class:'control-form mb-3 form-control-sm'%>
+      <%= form.label :phone_number, "Número:", class:'form-label' %>
+      <%= form.telephone_field :phone_number, placeholder: '(00) 0000-0000', class:'control-form mb-3 form-control-sm' %>
+      <%= form.label :cep, "CEP:", class:'form-label' %>
+      <%= form.text_field :cep, placeholder: '00000-000', class:'control-form mb-3 form-control-sm' %>
+      <%= form.label :active, "Ativo:", class:'form-label' %>
+      <%= form.check_box :active, checked: true, class:'form-check-input' %>
+      <div class="d-flex">
+        <%= form.submit 'Salvar', class: 'btn btn-success me-4' %>
+        <%= link_to 'Voltar', colleges_path, class: 'btn btn-secondary' %>
+      </div>
+    <%= end %>
+  </div>
+</section>
+<%= javascript_pack_tag 'masks'%>
   
 
