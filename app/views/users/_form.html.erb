@@ -8,30 +8,38 @@
     </ul>
   </div>
 <% end %>
-
-<div class= 'container'>
-  <%= form_with model: user do |form| %>
+<section>
+  <div class='d-flex flex-column w-25 ms-3'>
+    <%= form_with model: user do |form| %>
       <% if @current_user.admin? %>
-        <%= form.text_field :name, class:'form-control' %>
-        <%= form.text_field :cpf, class:'form-control', placeholder: '111.111.111-11' %>
-        <%= form.email_field :iduff, class:'form-control', placeholder: 'exemplo@id.uff.br'  %>
+        <%= form.label :name, "Nome:", class: 'mb-2' %>
+        <%= form.text_field :name, class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :cpf, "CPF:", class: 'mb-2' %>
+        <%= form.text_field :cpf, placeholder: '111.111.111-11', class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :iduff, "Id UFF:", class: 'mb-2' %>
+        <%= form.email_field :iduff, placeholder: 'exemplo@id.uff.br', class: 'form-control mb-3 form-control-sm'  %>
         <% if user.id %>
-          <%= form.password_field :password, class: 'form-control'%>
+          <%= form.label :password, "Senha:", class: 'mb-2' %>
+          <%= form.password_field :password, class: 'form-control mb-3 form-control-sm'%>
         <% end %>
-        <%= form.check_box :active, checked: user.active%>
-        <%= form.label :active, "Ativo:" %>
-        <%= form.check_box :admin %>
-        <%= form.label :admin, "Admin:" %>
+        <%= form.label :admin, "Admin:", class: 'mb-4 me-2' %>
+        <%= form.check_box :admin, class: 'form-check-input mb-4' %>
       <% else %>
-        <%= form.text_field :name, readonly: true %>
-        <%= form.text_field :cpf, readonly: true%>
-        <%= form.email_field :iduff, readonly: true %>
-        <%= form.password_field :password, class: 'form-control'%>
+        <%= form.label :name, "Nome:", class: 'mb-2' %>
+        <%= form.text_field :name, readonly: true, class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :cpf, "CPF:", class: 'mb-2' %>
+        <%= form.text_field :cpf, readonly: true, class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :iduff, "Id UFF:", class: 'mb-2' %>
+        <%= form.email_field :iduff, readonly: true, class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :password, "Senha:", class: 'mb-2' %>
+        <%= form.password_field :password, class: 'form-control mb-3 form-control-sm'%>
       <% end %>
 
-    <div>
-      <%= form.submit 'Salvar', class: 'btn btn-success' %>
-      <%= link_to 'Voltar', users_path, class: 'btn btn-secondary', type: 'button' %>
-    <div>
-  <% end %>  
-</div>
+      <div>
+        <%= form.submit 'Salvar', class: 'btn btn-success me-4' %>
+        <%= link_to 'Voltar', users_path, class: 'btn btn-secondary' %>
+      <div>
+    <% end %>  
+  </div>
+</section>
+<%= javascript_pack_tag 'masks'%>

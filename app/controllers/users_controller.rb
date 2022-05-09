@@ -1,14 +1,24 @@
 class UsersController < ApplicationController
   before_action :user_from_cookie
-  before_action :set_user, only: %i[ show edit update destroy rides ]
+  before_action :set_user, only: %i[ show edit update toggle_active rides ]
 
   def index
     @users = User.all
+    respond_to do |format|
+      format.html { render :index }
+      format.json { @users }
+    end
   end
-  # User as a driver
+
+  def search
+    @users = User.search_query(params[:q])
+    render json: { @users }
+  end
+
   def rides
     @rides = @current_user.rides
   end
+
   def show
   end
 
@@ -23,30 +33,26 @@ class UsersController < ApplicationController
     @user = User.new(user_create_params)
     @user.password = user_create_params[:cpf]
     @user.active = true
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to users_url, notice: "User was successfully created." }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
+    if @user.save
+      redirect_to users_url, notice: "Usyário criado com sucesso."
+    else
+      render :new, status: :unprocessable_entity 
     end
   end
 
   def update
-    respond_to do |format|
-      if @user.update(user_update_params)
-        format.html { redirect_to users_url, notice: "User was successfully updated." }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-      end
+    if @user.update(user_update_params)
+      redirect_to users_url, notice: "Usuário atualizado com sucesso." 
+    else
+      render :edit, status: :unprocessable_entity 
     end
   end
 
-  def destroy
-    @user.destroy
-
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
+  def toggle_active
+    if @user.update(active: not(@user.active?))
+      redirect_to users_url, notice: "Usuário #{@user.active? ? "reativado" : "desativado"} com sucesso." 
+    else 
+      render :index, status: :unprocessable_entity 
     end
   end
 

@@ -1,11 +1,11 @@
 class User < ApplicationRecord
   has_secure_password
-  validates :name, :iduff, :cpf, :active, presence: true
-  validates :iduff, format: {with: /[\w\.\-]+@id\.uff\.br/s}, uniqueness: true
-  validates :cpf, format: {with: /\d{3}\.\d{3}\.\d{3}\-\d{2}/s}, uniqueness: true
+  validates :name, :iduff, :cpf, :active, presence: true, on: :create
+  validates :iduff, format: { with: /[\w\.\-]+@id\.uff\.br/s }, uniqueness: true
+  validates :cpf, format: { with: /\d{3}\.\d{3}\.\d{3}\-\d{2}/s }, uniqueness: true
+  validates :active, :admin, inclusion: { in: [true, false] }, on: :update
 
   has_many :rides, through: :reservation
-
 
   def rides
     Ride.where(driver_id: self.id)
@@ -17,6 +17,10 @@ class User < ApplicationRecord
 
   def admin?
     self.admin
+  end
+
+  def self.search_query(query)
+    User.where("name LIKE :q OR cpf LIKE :q OR iduff LIKE :q", q: "#{query}%")
   end
   
 end

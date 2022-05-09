@@ -1,17 +1,31 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/utilities";
 @import "config/fonts";
 @import "config/colors";
+
 $font-family-sans-serif:  $body-font;
 $headings-font-family:    $headers-font;
 $body-bg:                 $light-gray;
 $font-size-base: 1rem;
 
-$body-color: $gray;
-$primary:    $blue;
-$success:    $green;
-$info:       $yellow;
-$danger:     $red;
-$warning:    $orange;
 
-$border-radius:    2px;
+$border-radius:    0.5rem;
 $border-radius-lg: 2px;
 $border-radius-sm: 2px;
+$--bs-gutter-x: 1.25rem;
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "width": map-merge(
+      map-get($utilities, "width"),
+      (
+        values: map-merge(
+          map-get(map-get($utilities, "width"), "values"),
+          (80: 80%, 90: 90%),
+        ),
+      ),
+    ),
+  )
+);

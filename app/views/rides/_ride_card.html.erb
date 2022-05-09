@@ -6,7 +6,7 @@
   <div class="card-footer">
     <%= if user %>
       <%= link_to 'Editar', edit_user_ride_path(user, ride), method: :put, class: 'btn btn-warning' %>
-      <%= link_to 'Deletar', ride, method: :delete, data: {confirm: "Tem certeza?"}, class: 'btn btn-danger'%>
+      <%= link_to 'Desativar', ride, method: :delete, data: {confirm: "Tem certeza?"}, class: 'btn btn-danger'%>
     <% else %>
       <%= link_to 'Reservar', book_ride_path(ride), class: 'btn btn-primary' %>
     <% end %>
