@@ -27,13 +27,16 @@ $(document).ready( () => {
       closeAllLists();
       if (!val) { return false }
       currentFocus = -1;
+
       const list = $("<div></div>");
       list.attr("id", this.id + "-autocomplete-list");
       list.addClass("autocomplete-items");
       $(this).parent().append(list);
+
       if (this.value.length >= 3) {
         for (let i = 0; i < collection.length; i++) {
           if (collection[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+
             item = $("<div></div>");
             item.html(function () {
               let content = "<strong>" + collection[i].substr(0, val.length) + "</strong>";
@@ -68,5 +71,14 @@ $(document).ready( () => {
     });
     $(document).click( (e) => closeAllLists(e.target) );
   }
-  autocomplete();
-  })
+  const collection = [];
+  $.get("/users.json", function(data, _){
+    for(let i = 0; i < data.length; i++) {
+      collection.push(data[i].name);
+      collection.push(data[i].cpf);
+      collection.push(data[i].iduff);
+    }
+  });
+  autocomplete(collection);
+  
+})

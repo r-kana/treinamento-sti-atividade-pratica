@@ -20,10 +20,10 @@
         <%= form.email_field :iduff, placeholder: 'exemplo@id.uff.br', class: 'form-control mb-3 form-control-sm'  %>
         <% if user.id %>
           <%= form.label :password, "Senha:", class: 'mb-2' %>
-          <%= form.password_field :password, class: 'form-control form-control-sm'%>
+          <%= form.password_field :password, class: 'form-control mb-3 form-control-sm'%>
         <% end %>
-        <%= form.label :admin, "Tornar admin:", class: 'mb-2' %>
-        <%= form.check_box :admin, class: 'form-check-input mb-3' %>
+        <%= form.label :admin, "Admin:", class: 'mb-4 me-2' %>
+        <%= form.check_box :admin, class: 'form-check-input mb-4' %>
       <% else %>
         <%= form.label :name, "Nome:", class: 'mb-2' %>
         <%= form.text_field :name, readonly: true, class: 'form-control mb-3 form-control-sm' %>
