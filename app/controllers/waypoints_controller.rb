@@ -1,7 +1,5 @@
 class WaypointsController < ApplicationController
   before_action :set_waypoint, only: %i[ update destroy ]
- 
-
 
   def create
     @waypoint = Waypoint.new(waypoint_params)

@@ -1,4 +1,4 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_user_ride_path(@driver, @ride) %> |
-<%= link_to 'Back', user_rides_path(@driver) %>
+<%= link_to 'Editar', edit_user_ride_path(@current_user, @ride), class: 'btn btn-success me-4' %> |
+<%= link_to 'voltar', user_rides_path(@current_user), class: 'btn btn-secondary' %>

@@ -41,6 +41,34 @@ class Ride < ApplicationRecord
     self.waypoints.where(type: :stop)
   end
 
+  def create_destination(params)
+    destination = Waypoint.new(
+      address: params.address,
+      city: params.city,
+      meighborhood: params.neighborhood,
+      order: 0,
+      is_college: self.to_college,
+      kind: :destination,
+      ride_id: self.id
+    )
+    destination.save
+    return destination
+  end
+
+  def create_departure(params)
+    departure = Waypoint.create(
+      address: params.address,
+      city: params.city,
+      meighborhood: params.neighborhood,
+      order: 0,
+      is_college: not(self.to_college),
+      kind: :departure,
+      ride_id: self.id
+    )
+    departure.save
+    return departure
+  end
+
   private 
 
   def passagers_cannot_be_greater_than_seats
@@ -59,8 +87,4 @@ class Ride < ApplicationRecord
       end
     end
   end
-
-
-  private 
-
 end

@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_action :user_from_cookie
   before_action :set_user, only: %i[ show edit update toggle_active rides ]
 
   def index

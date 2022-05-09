@@ -1,5 +1,4 @@
 class CollegesController < ApplicationController
-  before_action :user_from_cookie
   before_action :set_college, only: [:update, :toggle_activate]
   
   def index
