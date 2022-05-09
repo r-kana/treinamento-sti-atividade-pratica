@@ -11,7 +11,54 @@
 
 <section>
   <div class='d-flex flex-column w-25 ms-3'>
-    <%= form_with(url: user_rides_path(user)) do |form| %>
+    <%= form_with url: user_rides_url(user), model: ride do |form| %>
+    <!-- Primeiro form (A corrida) -->
+      <%= form.label :seats, "Assentos:", class: 'mb-2' %>
+      <%= form.number_field :seats, class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :price, "Preço (por passageiro):", class: 'mb-2' %>
+      <%= form.number_field :price, class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :date, "Data:", class: 'mb-2' %>
+      <%= form.date_field :date, class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :time, "Horário:", class: 'mb-2' %>
+      <%= form.time_field :time, class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :observation, "Observações:", class: 'mb-2' %>
+      <%= form.text_area :observation, size: '70x4', class: 'form-control mb-3 form-control-sm' %>
+
+    <!-- Segundo form (Origem) -->
+      <%= form.label :to_college, "Campus:", class: 'mb-3' %>
+      <%= form.check_box :to_college, class: 'form-check-input mb-3'%>
+      <%= form.label :departure_address, "Endereço:", class: 'mb-2' %>
+      <%= form.text_field :departure_address, class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :departure_neighborhood, "Bairro:", class: 'mb-2' %>
+      <%= form.text_field :departure_neighborhood, class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :departure_city, "Cidade:", class: 'mb-2' %>
+      <%= form.text_field :departure_city, class: 'form-control mb-3 form-control-sm' %>
+
+    <!-- Terceiro form (Destino) -->
+      <%= form.label :to_college, "Campus:", class: 'mb-3' %>
+      <%= form.check_box :to_college, class: 'form-check-input mb-3'%>
+      <%= form.label :destination_address, "Endereço:", class: 'mb-2' %>
+      <%= form.text_field :destination_address, class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :destination_neighborhood, "Bairro:", class: 'mb-2' %>
+      <%= form.text_field :destination_neighborhood, class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :destination_city, "Cidade:", class: 'mb-2' %>
+      <%= form.text_field :destination_city, class: 'form-control mb-3 form-control-sm' %>
+
+    <!-- Quarto form (Paradas) -->  
+      <%= form.label :address, "Endereço:", class: 'mb-2' %>
+      <%= form.text_field :waypoint, name: 'waypoint[address]', class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :neighborhood, "Bairro:", class: 'mb-2' %>
+      <%= form.text_field :waypoint, name: 'waypoint[neighborhood]', class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :city, "Cidade:", class: 'mb-2' %>
+      <%= form.text_field :waypoint, name: 'waypoint[city]', class: 'form-control mb-3 form-control-sm' %>
+      <%= form.hidden_field :waypoint, name: 'waypoint[order]' %>
+      <%= form.hidden_field :waypoint, name: 'waypoint[kind]', value: "stop" %>
+      <%= form.hidden_field :waypoint, name: 'waypoint[is_college]', value: "false" %>
+
+      <div class="d-flex mb-4">
+        <%= form.submit 'Salvar', class: 'btn btn-success me-4' %>
+        <%= link_to 'Voltar', user_rides_path(user), class: 'btn btn-secondary' %>
+      </div>
     <% end %>
   </div>
 </section>

@@ -3,12 +3,12 @@ class Ride < ApplicationRecord
   belongs_to :driver, class_name: :User
   has_many :users, through: :reservation
 
-  validates :time, :date, :price, :college_id, :driver_id, presence: true
-  validates :seats, presence: true, numericality: { greater_than: 0, only_integer: true }
+  validates :time, :date, :seats, :price, :college_id, :driver_id, presence: true, on: :create
+  validates :seats, numericality: { greater_than: 0, only_integer: true } 
   validates :to_college, :active, :full, inclusion: { in: [false, true] }
 
   validate :passagers_cannot_be_greater_than_seats, on: :update
-  validate :cannot_be_in_past, on: [:create, :update]
+  validate :cannot_be_in_past
 
 
   def self.availables
@@ -19,8 +19,8 @@ class Ride < ApplicationRecord
     if query[:destination].nil? and query[:departure].nil?
       Ride.availables
     else
-      Ride.availables.where('destination_neighborhood = ? or departure_neighborhood = ?',  
-                             query[:destination], query[:departure])
+      Ride.availables.where('destination_neighborhood LIKE ? OR departure_neighborhood LIKE ?',  
+                             "#{query[:destination]}%", "#{query[:departure]}%")
     end
   end
   
@@ -38,14 +38,14 @@ class Ride < ApplicationRecord
   end
 
   def stops
-    self.waypoints.where(type: :stop)
+    self.waypoints.where(type: :stop).order(:order)
   end
 
   def create_destination(params)
     destination = Waypoint.new(
-      address: params.address,
-      city: params.city,
-      meighborhood: params.neighborhood,
+      address: params[:address],
+      city: params[:city],
+      meighborhood: params[:neighborhood],
       order: 0,
       is_college: self.to_college,
       kind: :destination,
@@ -57,9 +57,9 @@ class Ride < ApplicationRecord
 
   def create_departure(params)
     departure = Waypoint.create(
-      address: params.address,
-      city: params.city,
-      meighborhood: params.neighborhood,
+      address: params[:address],
+      city: params[:city],
+      meighborhood: params[:neighborhood],
       order: 0,
       is_college: not(self.to_college),
       kind: :departure,

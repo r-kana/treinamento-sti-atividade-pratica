@@ -29,6 +29,7 @@ class RidesController < ApplicationController
   end
 
   def create
+    byebug
     @ride = Ride.new(create_ride_params)
     @ride.driver_id = @current_user.id
     if @ride.save
@@ -81,7 +82,7 @@ class RidesController < ApplicationController
         :time, 
         :date, 
         :to_college, 
-        :destination_neighborhood
+        :destination_neighborhood,
         :departure_neighborhood
       )
     end
