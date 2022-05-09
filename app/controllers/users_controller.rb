@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update toggle_active rides ]
 
   def index
-    @users = User.all
+    @users = User.all.order(:name)
     respond_to do |format|
       format.html { render :index }
       format.json { @users }

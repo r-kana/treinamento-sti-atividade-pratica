@@ -20,7 +20,7 @@ class User < ApplicationRecord
   end
 
   def self.search_query(query)
-    User.where("name LIKE :q OR cpf LIKE :q OR iduff LIKE :q", q: "#{query}%")
+    User.where("name LIKE :q OR cpf LIKE :q OR iduff LIKE :q", q: "#{query}%").order(:name).limit(20)
   end
   
 end
