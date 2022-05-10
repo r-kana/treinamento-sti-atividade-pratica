@@ -1,5 +1,5 @@
 class CollegesController < ApplicationController
-  before_action :set_college, only: [:update, :toggle_activate]
+  before_action :set_college, only: [:edit, :update, :toggle_active]
   
   def index
     @colleges = College.all.order(:name)
@@ -23,14 +23,14 @@ class CollegesController < ApplicationController
   end
 
   def update
-    if @college.update(colleg_params)
-      redirect_to college_url(@college)
+    if @college.update(college_params)
+      redirect_to colleges_url
     else
       render :edit
     end
   end
 
-  def toggle_activate
+  def toggle_active
     if @college.update(active: not(@college.active?))
       redirect_to colleges_url, notice: "Campus #{@college.active? ? "reativado" : "desativado"} excluído com sucesso."
     else
@@ -40,7 +40,7 @@ class CollegesController < ApplicationController
 
   private
   def set_college
-    College.find params[:id]
+    @college = College.find params[:id]
   end
 
   def college_params

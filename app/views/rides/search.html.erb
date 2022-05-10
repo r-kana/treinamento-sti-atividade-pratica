@@ -1,12 +1,12 @@
 <h1>Procurar Caronas</h1> 
-<%= form_with url: search_rides_url do |form| %>
-  <div class='d-flex justify-content-between align-items-center'>
+<%= form_with url: search_rides_url, method: :get do |form| %>
+  <div class='d-flex align-items-end'>
     <!-- TEXT INPUTS -->
-    <div class='d-flex flex-column justify-content-between align-items-center w-100'>
+    <div class='d-flex align-items-center w-80'>
       <!-- DEPARTURE -->
-      <div id='departure_text_field' class='d-flex align-items-center mb-3 justify-content-between w-100'>
-        <h4 class='m-0 ms-3'>Partida:</h4>
-        <div class='input-group w-80'>
+      <div id='departure_text_field' class='me-3 w-100'>
+        <p class='mb-2'>Partida:</p>
+        <div class='input-group'>
           <div class="input-group-text justify-content-start align-items-center">
             <%= form.label :departure_kind, "Campus: ", class: 'me-2'%>
             <%= form.check_box :departure_kind, class: 'form-check-input', type: 'checkbox' %>
@@ -15,9 +15,9 @@
         </div>
       </div>
       <!-- DESTINATION -->
-      <div id='destination_text_field' class='d-flex align-items-center justify-content-between w-100'>
-        <h4 class='m-0 ms-3'>Destino:</h4>
-        <div class='input-group w-80'>
+      <div id='destination_text_field' class='me-4 w-100'>
+        <p class='mb-2'>Destino:</p>
+        <div class='input-group'>
           <div class="input-group-text justify-content-start align-items-center">
             <%= form.label :departure_kind, "Campus: ", class: 'me-2'%>
             <%= form.check_box :destination_kind, class: 'form-check-input', type: 'checkbox' %>
@@ -27,9 +27,8 @@
       </div>
     </div>
 
-    <%= form.submit 'Procurar', class:'btn btn-outline-success ms-5'%>
+    <%= form.submit 'Procurar', class:'btn btn-outline-success'%>
   </div>
-  <%= form.select :college, options_for_select(@rides) %>
 <% end %>
 
 <section> 

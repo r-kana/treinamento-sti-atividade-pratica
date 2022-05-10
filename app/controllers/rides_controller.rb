@@ -1,5 +1,5 @@
 class RidesController < ApplicationController
-  before_action :set_ride, only: %i[ show edit update destroy book toggle_activate ]
+  before_action :set_ride, only: %i[ show edit update destroy book toggle_active ]
 
   def search
     @rides = Ride.search(params).order(:date)
@@ -59,7 +59,7 @@ class RidesController < ApplicationController
     redirect_to user_rides_url(@current_user), notice: "Ride was successfully destroyed."
   end
 
-  def toggle_activate
+  def toggle_active
     if @ride.update(active: not(@ride.active?))
       redirect_to user_rides_url(@current_user), notice: "Corrida #{@ride.active? ? "reativada" : "desativada"} com sucesso." 
     else

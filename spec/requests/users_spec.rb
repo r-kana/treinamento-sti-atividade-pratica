@@ -19,11 +19,11 @@ RSpec.describe "/users", type: :request do
   # adjust the attributes here as well.
   let!(:user) {create(:user)}
   let(:valid_attributes) {
-    {name: "Nome", iduff: "exemplo@id.uff.br", cpf: "111.111.111-11", admin: false}
+    {name: "Nome", cpf: "111.111.111-11", admin: false}
   }
 
   let(:invalid_attributes) {
-    {name: "Nome", iduff: "exemplo@gmail.com", cpf: "11.1.11-11", admin: false}
+    {name: "Nome", cpf: "11.1.11-11", admin: false}
   }
 
   describe "GET /index" do
@@ -101,12 +101,12 @@ RSpec.describe "/users", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        {name: "Nome", iduff: "modificado@id.uff.br", cpf: "111.111.111-11", admin: false}
+        {name: "Modificado", cpf: "111.111.111-11", admin: false}
       }
 
       it "updates the requested user" do
         patch user_url(user), params: { user: new_attributes }
-        expect{user.reload}.to change(user, :iduff).from("exemplo@id.uff.br").to("modificado@id.uff.br")
+        expect{user.reload}.to change(user, :name).from("Nome").to("Modificado")
       end
 
       it "redirects to the user" do

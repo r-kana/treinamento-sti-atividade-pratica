@@ -2,16 +2,11 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update toggle_active rides ]
 
   def index
-    @users = User.all.order(:name)
+    @users = User.search_query(params[:q])
     respond_to do |format|
       format.html { render :index }
       format.json { @users }
     end
-  end
-
-  def search
-    @users = User.search_query(params[:q])
-    render json: @users
   end
 
   def rides
@@ -33,7 +28,7 @@ class UsersController < ApplicationController
     @user.password = user_create_params[:cpf]
     @user.active = true
     if @user.save
-      redirect_to users_url, notice: "Usyário criado com sucesso."
+      redirect_to users_url, notice: "Usuário criado com sucesso."
     else
       render :new, status: :unprocessable_entity 
     end
@@ -61,10 +56,10 @@ class UsersController < ApplicationController
     end
 
     def user_update_params
-      params.require(:user).permit(:name, :iduff, :cpf, :password, :active, :admin)
+      params.require(:user).permit(:name, :cpf, :password, :active, :admin)
     end
 
     def user_create_params
-      params.require(:user).permit(:name, :iduff, :cpf, :admin)
+      params.require(:user).permit(:name, :cpf, :admin)
     end
 end

@@ -9,7 +9,7 @@
   </div>
 <% end %>
 
-<section>
+<section class='mb-5'>
   <div class='d-flex flex-column w-25 ms-3'>
     <%= form_with url: user_rides_url(user), model: ride do |form| %>
     <!-- Primeiro form (A corrida) -->
@@ -45,8 +45,8 @@
       <%= form.text_field :destination_city, class: 'form-control mb-3 form-control-sm' %>
 
     <!-- Quarto form (Paradas) -->  
-      <%= form.label :address, "Endereço:", class: 'mb-2' %>
-      <%= form.text_field :waypoint, name: 'waypoint[address]', class: 'form-control mb-3 form-control-sm' %>
+      <%= form.label :watpoint_address, "Endereço:", class: 'mb-2' %>
+      <%= form.text_field :waypoint, name: 'waypoint[address]', class: 'form-control mb-3 form-control-sm', id: 'waypoint_address' %>
       <%= form.label :neighborhood, "Bairro:", class: 'mb-2' %>
       <%= form.text_field :waypoint, name: 'waypoint[neighborhood]', class: 'form-control mb-3 form-control-sm' %>
       <%= form.label :city, "Cidade:", class: 'mb-2' %>
