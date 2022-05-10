@@ -13,43 +13,45 @@
   <div class='d-flex flex-column w-25 ms-3'>
     <%= form_with url: user_rides_url(user), model: ride do |form| %>
     <!-- Primeiro form (A corrida) -->
-      <%= form.label :seats, "Assentos:", class: 'mb-2' %>
+      <%= form.label :seats, "Assentos:", class: 'mb-2 form-label' %>
       <%= form.number_field :seats, class: 'form-control mb-3 form-control-sm' %>
-      <%= form.label :price, "Preço (por passageiro):", class: 'mb-2' %>
+      <%= form.label :price, "Preço (por passageiro):", class: 'mb-2 form-label' %>
       <%= form.number_field :price, class: 'form-control mb-3 form-control-sm' %>
-      <%= form.label :date, "Data:", class: 'mb-2' %>
+      <%= form.label :date, "Data:", class: 'mb-2 form-label' %>
       <%= form.date_field :date, class: 'form-control mb-3 form-control-sm' %>
-      <%= form.label :time, "Horário:", class: 'mb-2' %>
+      <%= form.label :time, "Horário:", class: 'mb-2 form-label' %>
       <%= form.time_field :time, class: 'form-control mb-3 form-control-sm' %>
-      <%= form.label :observation, "Observações:", class: 'mb-2' %>
+      <%= form.label :observation, "Observações:", class: 'mb-2 form-label' %>
       <%= form.text_area :observation, size: '70x4', class: 'form-control mb-3 form-control-sm' %>
 
     <!-- Segundo form (Origem) -->
-      <%= form.label :to_college, "Campus:", class: 'mb-3' %>
-      <%= form.check_box :to_college, class: 'form-check-input mb-3'%>
-      <%= form.label :departure_address, "Endereço:", class: 'mb-2' %>
+      <%= form.label :to_college, "Campus:", class: 'mb-3 form-label', for: :to_college_departure %>
+      <%= form.check_box nil, class: 'form-check-input mb-3', id: :to_college_departure %>
+      <br>
+      <%= form.label :departure_address, "Endereço:", class: 'mb-2 form-label' %>
       <%= form.text_field :departure_address, class: 'form-control mb-3 form-control-sm' %>
-      <%= form.label :departure_neighborhood, "Bairro:", class: 'mb-2' %>
+      <%= form.label :departure_neighborhood, "Bairro:", class: 'mb-2 form-label' %>
       <%= form.text_field :departure_neighborhood, class: 'form-control mb-3 form-control-sm' %>
-      <%= form.label :departure_city, "Cidade:", class: 'mb-2' %>
+      <%= form.label :departure_city, "Cidade:", class: 'mb-2 form-label' %>
       <%= form.text_field :departure_city, class: 'form-control mb-3 form-control-sm' %>
 
     <!-- Terceiro form (Destino) -->
-      <%= form.label :to_college, "Campus:", class: 'mb-3' %>
-      <%= form.check_box :to_college, class: 'form-check-input mb-3'%>
-      <%= form.label :destination_address, "Endereço:", class: 'mb-2' %>
+      <%= form.label :to_college, "Campus:", class: 'mb-3 form-label', for: :to_college_destination %>
+      <%= form.check_box nil, class: 'form-check-input mb-3', id: :to_college_destination %>
+      <br>
+      <%= form.label :destination_address, "Endereço:", class: 'mb-2 form-label' %>
       <%= form.text_field :destination_address, class: 'form-control mb-3 form-control-sm' %>
-      <%= form.label :destination_neighborhood, "Bairro:", class: 'mb-2' %>
+      <%= form.label :destination_neighborhood, "Bairro:", class: 'mb-2 form-label' %>
       <%= form.text_field :destination_neighborhood, class: 'form-control mb-3 form-control-sm' %>
-      <%= form.label :destination_city, "Cidade:", class: 'mb-2' %>
+      <%= form.label :destination_city, "Cidade:", class: 'mb-2 form-label' %>
       <%= form.text_field :destination_city, class: 'form-control mb-3 form-control-sm' %>
 
     <!-- Quarto form (Paradas) -->  
-      <%= form.label :watpoint_address, "Endereço:", class: 'mb-2' %>
+      <%= form.label :watpoint_address, "Endereço:", class: 'mb-3 form-label' %>
       <%= form.text_field :waypoint, name: 'waypoint[address]', class: 'form-control mb-3 form-control-sm', id: 'waypoint_address' %>
-      <%= form.label :neighborhood, "Bairro:", class: 'mb-2' %>
+      <%= form.label :neighborhood, "Bairro:", class: 'mb-2 form-label' %>
       <%= form.text_field :waypoint, name: 'waypoint[neighborhood]', class: 'form-control mb-3 form-control-sm' %>
-      <%= form.label :city, "Cidade:", class: 'mb-2' %>
+      <%= form.label :city, "Cidade:", class: 'mb-2 form-label' %>
       <%= form.text_field :waypoint, name: 'waypoint[city]', class: 'form-control mb-3 form-control-sm' %>
       <%= form.hidden_field :waypoint, name: 'waypoint[order]' %>
       <%= form.hidden_field :waypoint, name: 'waypoint[kind]', value: "stop" %>

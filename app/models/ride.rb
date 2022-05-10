@@ -12,7 +12,10 @@ class Ride < ApplicationRecord
 
 
   def self.availables
-    Ride.all.where('active = ? and rides.full = ? and date >= ? and time >= ?', true, false, Date.today, Time.now).order(:date)
+    Ride.all.where(
+      'active = :active AND rides.full = :full AND (date > :date OR (date = :date AND time >= :time))', 
+      active: true, full: false, date: Date.today, time: Time.now
+    ).order(:date)
   end
 
   def self.search (query)
