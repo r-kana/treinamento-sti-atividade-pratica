@@ -19,11 +19,18 @@ class Ride < ApplicationRecord
   end
 
   def self.search (query)
-    if query[:destination].nil? and query[:departure].nil?
+    if query[:departure_kind].nil? and query[:destination_kind].nil?
       Ride.availables
     else
+      if query[:ride][:neighborhood].present?
+        if query[:destination_kind] == 'college'
+          query[:destination] = query[:ride][:neighborhood]
+        elsif query[:departure_kind] == 'college'
+          query[:departure] = query[:ride][:neighborhood]
+        end
+      end
       Ride.availables.where('destination_neighborhood LIKE ? OR departure_neighborhood LIKE ?',  
-                             "#{query[:destination]}%", "#{query[:departure]}%")
+          "#{query[:destination]}%", "#{query[:departure]}%")
     end
   end
   

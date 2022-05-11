@@ -7,13 +7,13 @@ function createInput(name, placeholder) {
   input.attr('id', name);
   return input;
 }
-function createSelect(collection) {
+function createSelect(collection = []) {
   const select = $('<select></select>');
-  select.attr('name', 'ride[college_id]');
+  select.attr('name', 'ride[neighborhood]');
   select.attr('class', 'form-select');
-  select.attr('id', 'ride[college_id]')
-  select.append($("<option></option>").attr("selected", true).text('Selecionar Campus '));
-  collection.forEach((e) => select.append($("<option></option>").attr("value", e.id).text(e.text)));
+  select.attr('id', 'college-select')
+  select.append($("<option></option>").attr("selected", true).attr("value", null).text('Selecionar Campus '));
+  collection.forEach((e) => select.append($("<option></option>").attr("value", e.neighborhood).text(e.text)));
   return select;
 }
 
@@ -24,43 +24,45 @@ $(document).ready(function () {
     for(let i = 0; i < data.length; i++) {
       colleges.push({
         text: `${data[i].name}, ${data[i].neighborhood}`,
-        id: data[i].id
+        neighborhood: data[i].neighborhood
       });
     }
   });
 
-  $('#departure_kind').on('input', function () {
-    if ($('#destination_kind').is(':checked') && this.is(':checked')) {
-      $('#destination_kind').attr('checked', false);
+  $('#departure_kind').click(function () {
+    if ($('#destination_kind').is(':checked') && $('#departure_kind').is(':checked')) {
+      $('#destination_kind').prop('checked', false);
     } 
-    // Se o input for verdadeiro
-    if (this.is(':checked')) {
-      if($('#destination')) {
-        $('#destination').attr('disabled', false);
-      } else {
-        $('#ride[college_id]').remove()
-        $('#destination-input').append(createInput('destination', 'Destino: '));
-      }
-      $('#departure').remove();
-      this.parent().append(createSelect(colleges));
+
+    if ($('#destination').is('input')) {
+      $('#destination').attr('disabled', false);
+    } 
+    else {
+      $("#college-select").remove()
+      $('#destination-input').append(createInput('destination', 'Destino: '));
     }
 
-  
+    $('#departure').remove();
+    $('#departure-input').append(createSelect(colleges));
   });
 
-  $('#destination_kind').on('input', function () {
-    if ($('#departure_kind').is(':checked') && this.is(':checked')) {
-      $('#departure_kind').attr('checked', false);
+  $('#destination_kind').click(function () {
+    if ($('#departure_kind').is(':checked') && $('#destination_kind').is(':checked')) {
+      $('#departure_kind').prop('checked', false);
     } 
-    if (this.is(':checked')) {
-      if($('#departure')) {
+
+    if ($('#destination_kind').is(':checked')) {
+
+      if($('#departure').is('input')) {
         $('#departure').attr('disabled', false);
-      } else {
-        $('#ride[college_id]').remove()
+      } 
+      else {
+        $("#college-select").remove()
         $('#departure-input').append(createInput('departure', 'Origem: '));
       }
+
       $('#destination').remove();
-      this.parent().append(createSelect(colleges));
+      $('#destination-input').append(createSelect(colleges));
     }
   });
 })

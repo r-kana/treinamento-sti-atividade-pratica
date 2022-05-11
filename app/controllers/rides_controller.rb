@@ -2,7 +2,7 @@ class RidesController < ApplicationController
   before_action :set_ride, only: %i[ show edit update destroy book toggle_active ]
 
   def search
-    @rides = Ride.search(params).order(:date)
+    @rides = Ride.search(params).where.not(driver: @current_user).order(:date)
   end
 
   def book

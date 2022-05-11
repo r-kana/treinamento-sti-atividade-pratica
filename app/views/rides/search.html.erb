@@ -9,7 +9,7 @@
         <div class='input-group' id='departure-input'>
           <div class="input-group-text justify-content-start align-items-center">
             <%= form.label :departure_kind, "Campus", class: 'me-2 form-check-label'%>
-            <%= form.radio_button :departure_kind, class: 'form-check-input', type: 'checkbox' %>
+            <%= form.radio_button :departure_kind, :college , class: 'form-check-input', type: 'checkbox', id: 'departure_kind' %>
           </div>
           <%= form.text_field :departure, class: 'form-control', type: 'text', disabled: true %>
         </div>
@@ -20,7 +20,7 @@
         <div class='input-group' id='destination-input'>
           <div class="input-group-text justify-content-start align-items-center">
             <%= form.label :departure_kind, "Campus", class: 'me-2 form-check-label'%>
-            <%= form.radio_button :destination_kind, class: 'form-check-input', type: 'checkbox' %>
+            <%= form.radio_button :destination_kind, :college, class: 'form-check-input', type: 'checkbox', id: 'destination_kind' %>
           </div>
           <%= form.text_field :destination, class: 'form-control', type: 'text', disabled: true %>
         </div>

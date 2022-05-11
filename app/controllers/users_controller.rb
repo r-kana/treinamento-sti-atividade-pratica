@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     @users = User.search_query(params[:q])
     respond_to do |format|
       format.html { render :index }
-      format.json { @users }
+      format.json { render json: @users }
     end
   end
 

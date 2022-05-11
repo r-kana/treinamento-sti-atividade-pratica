@@ -3,6 +3,10 @@ class CollegesController < ApplicationController
   
   def index
     @colleges = College.all.order(:name)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @colleges }
+    end
   end
 
   def new
