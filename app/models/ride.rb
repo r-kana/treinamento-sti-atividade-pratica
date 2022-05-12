@@ -11,6 +11,15 @@ class Ride < ApplicationRecord
   validate :cannot_be_in_past
 
 
+  def self.deactivate_past_rides user
+    rides = Ride.where(driver_id: user.id)
+    rides.each do |ride| 
+      if ride.date < Date.today or (ride.date == Date.today and ride.time < Time.now)
+        ride.update(active: false) 
+      end
+    end
+  end
+
   def self.availables
     Ride.all.where(
       'active = :active AND rides.full = :full AND (date > :date OR (date = :date AND time >= :time))', 
@@ -51,11 +60,25 @@ class Ride < ApplicationRecord
     self.waypoints.where(type: :stop).order(:order)
   end
 
+  def college
+    College.find(self.college_id)
+  end
+
+  def active?
+    self.active
+  end
+
   def create_destination(params)
+    if self.to_college
+      college = self.college
+      params[:destination_address] = college.address
+      params[:destination_neighborhood] = college.neighborhood
+      params[:destination_city] = college.city
+    end
     destination = Waypoint.new(
-      address: params[:address],
-      city: params[:city],
-      meighborhood: params[:neighborhood],
+      address: params[:destination_address],
+      city: params[:destination_city],
+      neighborhood: params[:destination_neighborhood],
       order: 0,
       is_college: self.to_college,
       kind: :destination,
@@ -66,10 +89,16 @@ class Ride < ApplicationRecord
   end
 
   def create_departure(params)
-    departure = Waypoint.create(
-      address: params[:address],
-      city: params[:city],
-      meighborhood: params[:neighborhood],
+    unless self.to_college
+      college = self.college
+      params[:departure_address] = college.address
+      params[:departure_neighborhood] = college.neighborhood
+      params[:departure_city] = college.city
+    end
+    departure = Waypoint.new(
+      address: params[:departure_address],
+      city: params[:departure_city],
+      neighborhood: params[:departure_neighborhood],
       order: 0,
       is_college: not(self.to_college),
       kind: :departure,
@@ -78,6 +107,45 @@ class Ride < ApplicationRecord
     departure.save
     return departure
   end
+
+  def update_destination params
+    if self.to_college
+      college = self.college
+      params[:destination_address] = college.address
+      params[:destination_neighborhood] = college.neighborhood
+      params[:destination_city] = college.city
+    end
+    destination = self.destination
+    destination.update(
+      address: params[:destination_address],
+      city: params[:destination_city],
+      neighborhood: params[:destination_neighborhood],
+      is_college: self.to_college
+    )
+    return destination
+  end
+
+  def update_departure params
+    unless self.to_college
+      college = self.college
+      params[:departure_address] = college.address
+      params[:departure_neighborhood] = college.neighborhood
+      params[:departure_city] = college.city
+    end
+    departure = self.departure
+    departure.update(
+      address: params[:departure_address],
+      city: params[:departure_city],
+      neighborhood: params[:departure_neighborhood],
+      is_college: not(self.to_college)
+    )
+    return departure
+  end
+
+  def ordered_waypoints
+    self.waypoints.order(:order)
+  end
+
 
   private 
 

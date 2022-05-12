@@ -3,11 +3,12 @@
     <div class='d-flex flex-column justify-content-between w-100 pe-2'>
       <div class='d-flex align-items-center mb-3'>
         <h6 class='card-title m-0 ms-2 me-2'>Origem: <%= address_format(ride.departure) %></h6>
-        <p class="fw-bold text-primary m-0"><%= ride.to_college ? "Campus" : nil %></p>
+        <p class="fw-bold text-primary m-0"><%= ride.to_college ? nil : "Campus" %></p>
+        <p class="fw-bold text-danger m-0"><%= ride.active? ? nil : "Desativado" %></p>
       </div>
       <div class='d-flex align-items-center mb-4'>
         <h6 class="card-title m-0 ms-2 me-2">Destino: <%= address_format(ride.destination) %></h6>
-        <p class="fw-bold text-primary m-0"><%= ride.to_college ? nil : "Campus" %></p>
+        <p class="fw-bold text-primary m-0"><%= ride.to_college ? "Campus" : nil %></p>
       </div>
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Data: <%= "#{ride.date.strftime("%d/%m/%y")} - #{ride.time.strftime("%R")}" %></h6>
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Assentos totais: <%= ride.seats %></h6>
@@ -17,7 +18,6 @@
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Observação: <%= ride.observation %></h6>
     </div>
     <div class='d-flex flex-column'>
-      <%= link_to 'Detalhes', user_ride_path(ride.driver, ride), class: 'btn btn-outline-primary mb-3' %>
       <% if ride.driver_id == user.id %>
         <%= link_to 'Detalhes', user_ride_path(user, ride), class: 'btn btn-outline-primary mb-3' %>
         <%= link_to 'Editar', edit_user_ride_path(user, ride), class: 'btn btn-outline-warning mb-3' %>
@@ -26,6 +26,8 @@
         <% else %>
           <%= link_to 'Reativar', ride_toggle_active_path(user, ride), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-success' %>
         <% end %>
+      <% else %>
+        <%= link_to 'Detalhes', user_ride_path(ride.driver, ride), class: 'btn btn-outline-primary mb-3' %>
       <% end %>
     </div>
   </div>

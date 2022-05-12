@@ -2,7 +2,7 @@ class RidesController < ApplicationController
   before_action :set_ride, only: %i[ show edit update destroy book toggle_active ]
 
   def search
-    @rides = Ride.search(params).where.not(driver: @current_user).order(:date)
+    @rides = Ride.search(params).where.not(driver: @current_user).order(date: :desc)
   end
 
   def book
@@ -14,11 +14,11 @@ class RidesController < ApplicationController
   end
 
   def index
-    @rides = Ride.availables.where(driver: @current_user).order(:date)
+    Ride.deactivate_past_rides(@current_user)
+    @rides = Ride.all.where(driver: @current_user).order(date: :desc)
   end
 
   def show
-    @waypoints = @ride.waypoints
   end
 
   def new
@@ -29,16 +29,23 @@ class RidesController < ApplicationController
   end
 
   def create
-    byebug
-    @ride = Ride.new(create_ride_params)
+    @ride = Ride.new(ride_params)
     @ride.driver_id = @current_user.id
+    if @ride.to_college
+      @ride.destination_neighborhood = @ride.college.neighborhood
+    else
+      @ride.departure_neighborhood = @ride.college.neighborhood
+    end
     if @ride.save
-      departure = @ride.create_departure(departure_ride_params)
-      destination = @ride.create_destination(destination_ride_params)
-      if departure.errors.any? or destination.errors.any?
+      @departure = @ride.create_departure(departure_ride_params)
+      @destination = @ride.create_destination(destination_ride_params)
+      if @departure.errors.any? or @destination.errors.any?
+        @ride.destroy
+        @departure.destroy if @departure.errors.any?
+        @destination.destroy if @destination.errors.any?
         render :new, status: :unprocessable_entity 
       else  
-        redirect_to user_ride_url(@current_user, @ride), notice: "Carona criada com sucesso." 
+        redirect_to add_stops_url(@ride), notice: "Carona criada com sucesso." 
       end
     else
       render :new, status: :unprocessable_entity 
@@ -46,9 +53,14 @@ class RidesController < ApplicationController
   end
 
   def update
-    ride_params[driver_id: @current_user.id]
     if @ride.update(ride_params)
-      redirect_to user_ride_url(@current_user, @ride), notice: "Ride was successfully updated."
+      @destination = @ride.update_destination(destination_ride_params)
+      @departure = @ride.update_departure(departure_ride_params)
+      if @departure.errors.any? or @destination.errors.any?
+        render :edit, status: :unprocessable_entity
+      else
+        redirect_to user_rides_url(@current_user), notice: "Corrida atualizada com sucesso."
+      end
     else
       render :edit, status: :unprocessable_entity 
     end
@@ -56,7 +68,7 @@ class RidesController < ApplicationController
 
   def destroy
     @ride.destroy
-    redirect_to user_rides_url(@current_user), notice: "Ride was successfully destroyed."
+    redirect_to user_rides_url(@current_user), notice: "Corrida apagada com sucesso."
   end
 
   def toggle_active
@@ -73,7 +85,7 @@ class RidesController < ApplicationController
       @ride = Ride.find(params[:id])
     end
 
-    def create_ride_params
+    def ride_params
       params.require(:ride).permit(
         :price, 
         :seats, 

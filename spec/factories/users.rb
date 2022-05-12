@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :user do
     name { Faker::Name.first_name }
-    cpf { "#{Faker::Number.number(digits: 3)}.#{Faker::Number.number(digits: 3)}.#{Faker::Number.number(digits: 3)}-#{Faker::Number.number(digits: 2)}" }
+    cpf { "#{Faker::Number.number(digits: 11)}" }
     active { true }
     admin { false } 
 

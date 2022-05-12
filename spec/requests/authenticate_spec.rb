@@ -1,10 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Authenticates", type: :request do
+
   describe "GET /login" do
     it "returns http success" do
-      get "/authenticate/login"
-      expect(response).to have_http_status(:success)
+      user = create(:user, password: '123')
+      post "/login", params: { cpf: user.cpf, password: '123' }
+      expect(response).to have_http_status(:found)
+      expect(response).to redirect_to(home_path)
     end
   end
 

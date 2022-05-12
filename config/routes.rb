@@ -15,5 +15,7 @@ Rails.application.routes.draw do
   get '/users/:id/toggle_active', to: 'users#toggle_active', as: :user_toggle_active
   get '/colleges/:id/toggle_active', to: 'colleges#toggle_active', as: :college_toggle_active
   get 'user/:user_id/rides/:id/toggle_active', to: 'rides#toggle_active', as: :ride_toggle_active
+  get '/ride/:ride_id/add_stops', to: 'waypoints#add_stops', as: :add_stops
+  post 'ride/:ride_id/create_stops', to: 'waypoints#create_stops', as: :create_stops
   
 end

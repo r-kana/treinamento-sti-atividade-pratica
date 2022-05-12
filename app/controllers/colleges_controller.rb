@@ -19,10 +19,13 @@ class CollegesController < ApplicationController
   def create 
     @college = College.new(college_params)
     @college.active ||= true
-    if @college.save
-      redirect_to colleges_url, notice: 'Campus criado com sucesso.' 
-    else
-      render :new 
+    byebug
+    respond_to do |format|
+      if @college.save
+        format.html { redirect_to colleges_url, status: :created, notice: 'Campus criado com sucesso.' }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -38,7 +41,7 @@ class CollegesController < ApplicationController
     if @college.update(active: not(@college.active?))
       redirect_to colleges_url, notice: "Campus #{@college.active? ? "reativado" : "desativado"} excluído com sucesso."
     else
-      render :index, status: :unprocessable_entity 
+      render :index, status: :unprocessable_entity
     end
   end
 

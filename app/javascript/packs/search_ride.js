@@ -12,7 +12,7 @@ function createSelect(collection = []) {
   select.attr('name', 'ride[neighborhood]');
   select.attr('class', 'form-select');
   select.attr('id', 'college-select')
-  select.append($("<option></option>").attr("selected", true).attr("value", null).text('Selecionar Campus '));
+  select.append($("<option></option>").attr("selected", true).attr("value", null).text('--- Selecionar Campus ---'));
   collection.forEach((e) => select.append($("<option></option>").attr("value", e.neighborhood).text(e.text)));
   return select;
 }
