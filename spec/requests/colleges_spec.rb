@@ -17,7 +17,7 @@ RSpec.describe 'Colleges', type: :request do
     address: 'Rua teste', 
     neighborhood: 'Bairro teste',
     city: 'Cidade teste',
-    cep: '20000',
+    cep: nil,
     phone_number: '000000' 
   }}
 
@@ -31,20 +31,19 @@ RSpec.describe 'Colleges', type: :request do
   describe 'Registo de novo campus' do
     context 'com parametros corretos' do
       it 'retornar resposta com status found' do
-
         post colleges_path, params: {college: valid_params}
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:found)
       end
       
       it 'cria um novo registro no banco de dados' do 
         expect {
-          post colleges_path, params: valid_params
-        }.to change(College.all, :count).by(1)
-
+          post colleges_path, params: {college: valid_params}
+        }.to change(College, :count).by(1)
+        expect(College.last.name).to eq('Teste')
       end
 
       it 'redireciona de volta para a lista de campus' do
-        post colleges_url, params: valid_params
+        post colleges_url, params: {college: valid_params}
         expect(response.content_type).to start_with('text/html')
         expect(response).to redirect_to(colleges_url)
         follow_redirect!
@@ -55,12 +54,12 @@ RSpec.describe 'Colleges', type: :request do
 
     context 'com parametros incorretos' do
       it 'retornar resposta com status unprocessable entity' do
-        post colleges_url, params: invalid_params
+        post colleges_url, params: {college: invalid_params}
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'redirecionar para o formulário de cadastro' do
-        post colleges_url, params: invalid_params
+        post colleges_url, params: {college: invalid_params}
         expect(response).to render_template(:new)
         expect(response.content_type).to start_with('text/html')
       end

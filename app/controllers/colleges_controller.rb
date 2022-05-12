@@ -19,10 +19,9 @@ class CollegesController < ApplicationController
   def create 
     @college = College.new(college_params)
     @college.active ||= true
-    byebug
     respond_to do |format|
       if @college.save
-        format.html { redirect_to colleges_url, status: :created, notice: 'Campus criado com sucesso.' }
+        format.html { redirect_to colleges_url, notice: 'Campus criado com sucesso.' }
       else
         format.html { render :new, status: :unprocessable_entity }
       end

@@ -4,6 +4,6 @@ class Waypoint < ApplicationRecord
   enum kind: [ :departure, :destination, :stop ]
 
   def self.create_stops params
-    
+  end
 
 end
