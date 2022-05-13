@@ -45,7 +45,7 @@ class RidesController < ApplicationController
         @destination.destroy if @destination.errors.any?
         render :new, status: :unprocessable_entity 
       else  
-        redirect_to add_stops_url(@ride), notice: "Carona criada com sucesso." 
+        redirect_to new_ride_waypoints_url(@ride), notice: "Carona criada com sucesso." 
       end
     else
       render :new, status: :unprocessable_entity 
@@ -59,7 +59,7 @@ class RidesController < ApplicationController
       if @departure.errors.any? or @destination.errors.any?
         render :edit, status: :unprocessable_entity
       else
-        redirect_to add_stops_url(@ride), notice: "Corrida atualizada com sucesso."
+        redirect_to new_ride_waypoints_url(@ride), notice: "Corrida atualizada com sucesso."
       end
     else
       render :edit, status: :unprocessable_entity 

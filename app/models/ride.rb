@@ -1,5 +1,5 @@
 class Ride < ApplicationRecord
-  has_many :waypoints
+  has_many :waypoints, dependent: :destroy
   belongs_to :driver, class_name: :User
   has_many :users, through: :reservation
 

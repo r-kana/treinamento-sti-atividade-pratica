@@ -30,13 +30,13 @@
     </div>
   </div>
   <div class='card-footer'>
-    <ul class='list-group list-group-flush'>
+    <ol class='list-group list-group-flush'>
       <li class='list-group-item'>Origem: <%= address_format(@ride.departure) %></li>
       <% @ride.ordered_waypoints.each do |waypoint| %>
         <% next if waypoint.order == 0 %>
-        <li class='list-group-item'><%= "Parada #{waypoint.order}: #{address_format(waypoint)}" %></li>
+        <li class='list-group-item'><%= "Parada em #{address_format(waypoint)}" %></li>
       <% end %>
       <li class='list-group-item'>Destino: <%= address_format(@ride.destination) %></li>
-    </ul>
+    </ol>
   </div>
 </div>
