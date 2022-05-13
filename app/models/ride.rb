@@ -34,11 +34,12 @@ class Ride < ApplicationRecord
       if query[:ride][:neighborhood].present?
         if query[:destination_kind] == 'college'
           query[:destination] = query[:ride][:neighborhood]
+
         elsif query[:departure_kind] == 'college'
           query[:departure] = query[:ride][:neighborhood]
         end
       end
-      Ride.availables.where('destination_neighborhood LIKE ? OR departure_neighborhood LIKE ?',  
+      Ride.availables.where('destination_neighborhood LIKE ? AND departure_neighborhood LIKE ?',  
           "#{query[:destination]}%", "#{query[:departure]}%")
     end
   end

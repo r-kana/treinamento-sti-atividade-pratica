@@ -14,20 +14,18 @@
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Assentos totais: <%= @ride.seats %></h6>
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Assentos disponives: <%= @ride.seats - @ride.number_of_passagers %></h6>
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Preço: <%= @ride.price %></h6>
+      <h6 class="card-subtitle mb-3 ms-2 text-muted">Motorista: <%= User.find(@ride.driver_id).name %></h6>
       <div class='divider mb-3 mt-0'></div>
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Observação: <%= @ride.observation %></h6>
     </div>
     <div class='d-flex flex-column'>
       <% if @ride.driver_id == @current_user.id %>
-        <%= link_to 'Detalhes', user_ride_path(@current_user, @ride), class: 'btn btn-outline-primary mb-3' %>
         <%= link_to 'Editar', edit_user_ride_path(@current_user, @ride), class: 'btn btn-outline-warning mb-3' %>
         <% if @ride.active? %>
           <%= link_to 'Desativar', ride_toggle_active_path(@current_user, @ride), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-danger' %>
         <% else %>
           <%= link_to 'Reativar', ride_toggle_active_path(@current_user, @ride), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-success' %>
         <% end %>
-      <% else %>
-        <%= link_to 'Detalhes', user_ride_path(@ride.driver, @ride), class: 'btn btn-outline-primary mb-3' %>
       <% end %>
     </div>
   </div>

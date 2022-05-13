@@ -11,7 +11,7 @@
             <%= form.label :departure_kind, "Campus", class: 'me-2 form-check-label'%>
             <%= form.radio_button :departure_kind, :college , class: 'form-check-input', type: 'checkbox', id: 'departure_kind' %>
           </div>
-          <%= form.text_field :departure, class: 'form-control', type: 'text', disabled: true %>
+          <%= form.text_field :departure, class: 'form-control', type: 'text', onchange: 'validateInputs()' %>
         </div>
       </div>
       <!-- DESTINATION -->
@@ -22,12 +22,12 @@
             <%= form.label :departure_kind, "Campus", class: 'me-2 form-check-label'%>
             <%= form.radio_button :destination_kind, :college, class: 'form-check-input', type: 'checkbox', id: 'destination_kind' %>
           </div>
-          <%= form.text_field :destination, class: 'form-control', type: 'text', disabled: true %>
+          <%= form.text_field :destination, class: 'form-control', type: 'text', onchange: 'validateInputs()' %>
         </div>
       </div>
     </div>
 
-    <%= form.submit 'Procurar', class:'btn btn-outline-success'%>
+    <%= form.submit 'Procurar', class:'btn btn-outline-secondary', disabled: true, id:'commit-btn' %>
   </div>
 <% end %>
 

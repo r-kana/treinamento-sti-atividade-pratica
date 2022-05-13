@@ -1,24 +1,21 @@
-class WaypointsController < ApplicationController
+  class WaypointsController < ApplicationController
   before_action :set_waypoint, only: %i[ update destroy ]
+  before_action :set_ride, only: [:add_stops, :create_stops]
 
 
   def add_stops
-    @ride = Ride.find(params[:ride_id])
   end
 
   def create_stops
-    # TODO criar metodo de criação de waypoint do tipo stop para uma ride
-    # Metodos recebe uma array waypoint
-    Waypoint.create_stops (waypoint_params)
-
-
-    @ride = Ride.find(params[:ride_id])
-    redirect_to user_rides_path(@current_user)
+    if Waypoint.create_stops params.permit!
+      redirect_to user_ride_path(@current_user, @ride)
+    else
+      render :add_stops, notice: "Um erro ocorreu ao tentar salvar as paradas", status: :unprocessable_entity
+    end
   end
 
 
   def update
-    # TODO Retorno em json
     respond_to do |format|
       if @waypoint.update(waypoint_params)
         format.html { redirect_to waypoint_url(@waypoint), notice: "Waypoint was successfully updated." } 
@@ -31,7 +28,6 @@ class WaypointsController < ApplicationController
   end
 
   def destroy
-    # TODO Retorno em json
     @waypoint.destroy
 
     respond_to do |format|
@@ -46,10 +42,8 @@ class WaypointsController < ApplicationController
       @waypoint = Waypoint.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
-    def waypoint_params
-      params.require(:waypoint)
+    def set_ride
+      @ride = Ride.find(params[:ride_id])
     end
-
 
 end

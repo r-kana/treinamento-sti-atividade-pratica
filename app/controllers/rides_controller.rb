@@ -59,7 +59,7 @@ class RidesController < ApplicationController
       if @departure.errors.any? or @destination.errors.any?
         render :edit, status: :unprocessable_entity
       else
-        redirect_to user_rides_url(@current_user), notice: "Corrida atualizada com sucesso."
+        redirect_to add_stops_url(@ride), notice: "Corrida atualizada com sucesso."
       end
     else
       render :edit, status: :unprocessable_entity 

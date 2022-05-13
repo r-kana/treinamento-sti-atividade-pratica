@@ -87,31 +87,17 @@ function setValue(element, value) {
 }
 function resetCheckboxes() {
   if ($('#to_college_destination').is(':checked') && $('#to_college_departure').is(':checked')) {
-    console.log('Ambos estão checked: true')
-    
     if ($('#hidden-to-college-value').value == 0) {
-
-      console.log('Hidden input está com value = 0')
-      console.log('Checkbox de destino para false')
-
       $('#to_college_destination').prop('checked', false)
-      
-      console.log('Checkbox de origem para true')
-
       $('#to_college_departure').prop('checked', true)
-
-      console.log('Removendo inputs de origem')
 
       removeAll('#departure-input');
       $('#departure-input').append(createSelect(colleges));
     }
     else {
-      console.log('Hidden input está com value = 1')
-      console.log('Checkbox de origem para false')
-
       $('#to_college_departure').prop('checked', false)
-      
       $('#to_college_destination').prop('checked', true)
+
       removeAll('#destination-input');
       $('#destination-input').append(createSelect(colleges));
     }
@@ -135,7 +121,9 @@ $(document).ready(function(){
     for(let i = 0; i < data.length; i++) {
       colleges.push({ text: `${data[i].name}, ${data[i].neighborhood}`, id: data[i].id });
     }
+    console.log(colleges);
   });
+
   showTab(currentTab);
   fillUpInputs();
   resetCheckboxes();
@@ -144,7 +132,7 @@ $(document).ready(function(){
 
   $('#nextBtn').click(function(){
     nextPrev(1);
-    if (currentTab == 2) {
+    if (currentTab == 1) {
       if (!$('#to_college_departure').is(':checked')){
         $('#to_college_destination').prop('checked', true);
         $('#to_college_destination').attr('disabled', true);

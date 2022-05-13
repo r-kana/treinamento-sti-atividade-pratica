@@ -22,21 +22,7 @@
 <section class='mb-5'>
   <div class='d-flex flex-column w-25 ms-3'>
     <%= form_with url: url, model: ride, id:'regForm' do |form| %>
-    <!-- Primeiro form (A corrida) -->
-      <div class='tab'>Detalhes da corrida:
-        <%= form.label :seats, "Assentos:", class: 'mb-2 form-label' %>
-        <%= form.number_field :seats, class: 'form-control mb-3 form-control-sm' %>
-        <%= form.label :price, "Preço (por passageiro):", class: 'mb-2 form-label' %>
-        <%= form.number_field :price, class: 'form-control mb-3 form-control-sm' %>
-        <%= form.label :date, "Data:", class: 'mb-2 form-label' %>
-        <%= form.date_field :date, class: 'form-control mb-3 form-control-sm' %>
-        <%= form.label :time, "Horário:", class: 'mb-2 form-label' %>
-        <%= form.time_field :time, class: 'form-control mb-3 form-control-sm' %>
-        <%= form.label :observation, "Observações:", class: 'mb-2 form-label' %>
-        <%= form.text_area :observation, size: '70x4', class: 'form-control mb-3 form-control-sm' %>
-      </div>
-
-    <!-- Segundo form (Origem) -->
+    
       <div class='tab'>Origem:
         <div class='mb-2 mt-2 to-college'>
           <%= form.label :to_college, "Campus:", class: 'mb-3 form-label', for: :to_college_departure %>
@@ -52,7 +38,6 @@
         </div>
       </div>
 
-    <!-- Terceiro form (Destino) -->
       <div class='tab'>Destino
         <div class='mb-2 mt-2 to-college'>
           <%= form.label :to_college, "Campus:", class: 'mb-3 form-label', for: :to_college_destination %>
@@ -67,6 +52,20 @@
           <%= form.text_field :destination_city, class: 'form-control mb-3 form-control-sm' %>
         </div>
       </div>
+
+      <div class='tab'>Detalhes da corrida:
+        <%= form.label :seats, "Assentos:", class: 'mb-2 form-label' %>
+        <%= form.number_field :seats, class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :price, "Preço (por passageiro):", class: 'mb-2 form-label' %>
+        <%= form.number_field :price, class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :date, "Data:", class: 'mb-2 form-label' %>
+        <%= form.date_field :date, class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :time, "Horário:", class: 'mb-2 form-label' %>
+        <%= form.time_field :time, class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :observation, "Observações:", class: 'mb-2 form-label' %>
+        <%= form.text_area :observation, size: '70x4', class: 'form-control mb-3 form-control-sm' %>
+      </div>
+
       <div style="overflow:auto;" class="d-flex mb-4">
         <%= link_to 'Voltar', user_rides_path(user), class: 'btn btn-secondary me-4', id:'backBtn' %>
         <button type="button" id="prevBtn" class='btn btn-secondary me-4'>Anterior</button>
@@ -76,6 +75,7 @@
 
     <input type='hidden' value=<%= ride.to_college ? '1' : '0' %> id='hidden-to-college-value'>
     <input type='hidden' value=<%= ride.id %> id='hidden-ride-id'>
+
     <% unless ride.id.nil? %>
       <input type='hidden' value='<%= ride.destination.address %>' id='hidden-destination-address'>
       <input type='hidden' value='<%= ride.destination.city %>' id='hidden-destination-city'>
@@ -87,4 +87,5 @@
     <% end %>
   </div>
 </section>
+
 <%= javascript_pack_tag 'ride_form' %>
