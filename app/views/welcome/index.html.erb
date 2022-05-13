@@ -3,12 +3,14 @@
   <h1>Carona UFF</h1>
   
   <p id="notice"><%= notice %></p> 
+  <%= form_with url: '/login', method: :post do |form| %>
+    <div class='d-flex flex-column w-25 ms-3'>
+      <%= form.label :cpf, 'CPF:', class:'form-label mb-2'%>
+      <%= form.text_field :cpf, placeholder: 'Login', class: 'form-control mb-3', autofocus: true %>
+      <%= form.label :password, 'Senha:', class:'form-label mb-2'%>
+      <%= form.password_field :password, placeholder: 'Senha', class: 'form-control mb-3' %>
 
-  <%= form_with url: '/login', method: :post, class: '' do |form| %>
-    
-    <%= form.email_field :iduff, placeholder: 'Login', class: '', autofocus: true %>
-    <%= form.password_field :password, placeholder: 'Senha', class: '' %>
-
-    <%= form.submit 'Entrar', class: 'btn primary' %>
+      <%= form.submit 'Entrar', class: 'btn btn-primary' %>
+    </div>
   <% end %>
 </div>

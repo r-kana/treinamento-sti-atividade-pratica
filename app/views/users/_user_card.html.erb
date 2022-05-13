@@ -5,15 +5,18 @@
         <h4 class='card-title mb-3 mt-3 me-3'><%= user.name %></h4>
         <p class="fw-bold text-danger m-0"><%= user.active? ? nil : "Desativado" %></p>
       </div>
-      <h6 class='card-subtitle mb-3 ms-2 text-muted'>IdUFF: <%= user.iduff %></h6>
-      <h6 class="card-subtitle mb-3 ms-2 text-muted">CPF: <%= user.cpf %></h6>
+      <h6 class="card-subtitle mb-3 ms-2 text-muted">CPF: <%= pretty_cpf(user.cpf) %></h6>
     </div>
-    <div class='d-flex flex-column'>
-      <%= link_to 'Editar', edit_user_path(user), class: 'btn btn-outline-warning mb-3' %>
-      <% if user.active? %>
-        <%= link_to 'Desativar', user_toggle_active_path(user), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-danger' %>
+    <div class='d-flex flex-column w-15'>
+      <% if user.id != current_user.id %>
+        <%= link_to 'Editar', edit_user_path(user), class: 'btn btn-outline-warning mb-3' %>
+        <% if user.active? %>
+          <%= link_to 'Desativar', user_toggle_active_path(user), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-danger' %>
+        <% else %>
+          <%= link_to 'Reativar', user_toggle_active_path(user), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-success' %>
+        <% end %>
       <% else %>
-        <%= link_to 'Reativar', user_toggle_active_path(user), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-success' %>
+        <%= link_to 'Editar', edit_user_path(user), class: 'btn btn-outline-warning' %>
       <% end %>
     </div>
   </div>

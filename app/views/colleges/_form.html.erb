@@ -8,30 +8,28 @@
     </ul>
   </div>
 <% end %>
-<section>
+<section class='mb-5'>
   <div class='d-flex flex-column w-25 ms-3'>
     <%= form_with model: college do |form| %>
       <%= form.label :name, "Nome:", class:'form-label' %>
-      <%= form.text_field :name, class:'control-form mb-3 form-control-sm'%>
+      <%= form.text_field :name, class:'form-control mb-3 form-control-sm'%>
       <%= form.label :address, "Endereço:", class:'form-label' %>
-      <%= form.text_field :address, class:'control-form mb-3 form-control-sm' %>
+      <%= form.text_field :address, class:'form-control mb-3 form-control-sm' %>
       <%= form.label :neighborhood, "Bairro:", class:'form-label' %>
-      <%= form.text_field :neighborhood, class:'control-form mb-3 form-control-sm' %>
-      <%= form.label :cit, "Cidade:", class:'form-label' %>
-      <%= form.text_field :cit, class:'control-form mb-3 form-control-sm'%>
+      <%= form.text_field :neighborhood, class:'form-control mb-3 form-control-sm' %>
+      <%= form.label :city, "Cidade:", class:'form-label' %>
+      <%= form.text_field :city, class:'form-control mb-3 form-control-sm'%>
       <%= form.label :phone_number, "Número:", class:'form-label' %>
-      <%= form.telephone_field :phone_number, placeholder: '(00) 0000-0000', class:'control-form mb-3 form-control-sm' %>
+      <%= form.telephone_field :phone_number, placeholder: '(00) 0000-0000', class:'form-control mb-3 form-control-sm' %>
       <%= form.label :cep, "CEP:", class:'form-label' %>
-      <%= form.text_field :cep, placeholder: '00000-000', class:'control-form mb-3 form-control-sm' %>
+      <%= form.text_field :cep, placeholder: '00000-000', class:'form-control mb-3 form-control-sm' %>
       <%= form.label :active, "Ativo:", class:'form-label' %>
       <%= form.check_box :active, checked: true, class:'form-check-input' %>
       <div class="d-flex">
         <%= form.submit 'Salvar', class: 'btn btn-success me-4' %>
         <%= link_to 'Voltar', colleges_path, class: 'btn btn-secondary' %>
       </div>
-    <%= end %>
+    <% end %>
   </div>
 </section>
-<%= javascript_pack_tag 'masks'%>
-  
-
+<!-- <%= javascript_pack_tag 'masks'%> -->

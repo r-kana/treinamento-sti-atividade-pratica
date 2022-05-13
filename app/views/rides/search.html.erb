@@ -1,42 +1,41 @@
 <h1>Procurar Caronas</h1> 
-<%= form_with url: search_rides_url do |form| %>
-  <div class='d-flex justify-content-between align-items-center'>
+<%= form_with url: search_rides_url, method: :get do |form| %>
+  <div class='d-flex align-items-end'>
     <!-- TEXT INPUTS -->
-    <div class='d-flex flex-column justify-content-between align-items-center w-100'>
+    <div class='d-flex align-items-center w-80'>
       <!-- DEPARTURE -->
-      <div id='departure_text_field' class='d-flex align-items-center mb-3 justify-content-between w-100'>
-        <h4 class='m-0 ms-3'>Partida:</h4>
-        <div class='input-group w-80'>
+      <div id='departure_text_field' class='me-3 w-100'>
+        <p class='mb-2'>Partida:</p>
+        <div class='input-group' id='departure-input'>
           <div class="input-group-text justify-content-start align-items-center">
-            <%= form.label :departure_kind, "Campus: ", class: 'me-2'%>
-            <%= form.check_box :departure_kind, class: 'form-check-input', type: 'checkbox' %>
+            <%= form.label :departure_kind, "Campus", class: 'me-2 form-check-label'%>
+            <%= form.radio_button :departure_kind, :college , class: 'form-check-input', type: 'checkbox', id: 'departure_kind' %>
           </div>
-          <%= form.text_field :departure, class: 'form-control', type: 'text', disabled: true %>
+          <%= form.text_field :departure, class: 'form-control', type: 'text', onchange: 'validateInputs()' %>
         </div>
       </div>
       <!-- DESTINATION -->
-      <div id='destination_text_field' class='d-flex align-items-center justify-content-between w-100'>
-        <h4 class='m-0 ms-3'>Destino:</h4>
-        <div class='input-group w-80'>
+      <div id='destination_text_field' class='me-4 w-100'>
+        <p class='mb-2'>Destino:</p>
+        <div class='input-group' id='destination-input'>
           <div class="input-group-text justify-content-start align-items-center">
-            <%= form.label :departure_kind, "Campus: ", class: 'me-2'%>
-            <%= form.check_box :destination_kind, class: 'form-check-input', type: 'checkbox' %>
+            <%= form.label :departure_kind, "Campus", class: 'me-2 form-check-label'%>
+            <%= form.radio_button :destination_kind, :college, class: 'form-check-input', type: 'checkbox', id: 'destination_kind' %>
           </div>
-          <%= form.text_field :destination, class: 'form-control', type: 'text', disabled: true %>
+          <%= form.text_field :destination, class: 'form-control', type: 'text', onchange: 'validateInputs()' %>
         </div>
       </div>
     </div>
 
-    <%= form.submit 'Procurar', class:'btn btn-outline-success ms-5'%>
+    <%= form.submit 'Procurar', class:'btn btn-outline-secondary', disabled: true, id:'commit-btn' %>
   </div>
-  <%= form.select :college, options_for_select(@rides) %>
 <% end %>
 
-<section> 
-  <ul>
+<section class='d-flex justify-content-center'>  
+  <ul class='w-75 p-3'>
     <% @rides.each do |ride| %>
-      <%= render 'ride_card', ride: ride %>
+      <%= render 'ride_card', {ride: ride, user: @current_user} %>
     <% end %>
   </ul>
 </section>
-<%= javascript_pack_tag 'rides' %>
+<%= javascript_pack_tag 'search_ride' %>

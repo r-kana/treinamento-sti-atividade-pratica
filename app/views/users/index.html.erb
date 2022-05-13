@@ -6,23 +6,22 @@
 
 <section class='d-flex flex-column align-items-center'> 
   <div class='w-75 p-3'>
-    <%= form_with url: users_url do |form| %>
-      <div class='input-group'>
-        <%= form.text_field :term, class:'form-control', placeholder:'Nome, CPF ou IdUFF' %>
-        <%= form.submit 'Procurar', class:'btn btn-outline-info' %>
+    <%= form_with url: users_url, method: :get do |form| %>
+      <div class="autocomplete">
+        <div class='input-group'>
+          <%= form.text_field :q, class:'form-control', placeholder:'Nome ou CPF', autocomplete: 'off' %>
+          <%= form.submit 'Procurar', class:'btn btn-outline-info' %>
+        </div>
       </div>
     <% end %>
   </div>
+
   <ul class='w-75 p-3'>
     <% @users.each do |user| %>
-      <%= render 'user_card', user: user %>
+      <%= render 'user_card', user: user, current_user: @current_user %>
     <% end %>
   </ul>
 </section>
-
-<script>
-const users = <%= @users %>
-</script>
 
 <%= javascript_pack_tag 'users' %>
 

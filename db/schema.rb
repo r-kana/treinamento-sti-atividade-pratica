@@ -59,7 +59,6 @@ ActiveRecord::Schema.define(version: 2022_05_06_062335) do
   create_table "users", force: :cascade do |t|
     t.string "password_digest"
     t.string "name"
-    t.string "iduff"
     t.string "cpf"
     t.boolean "admin"
     t.boolean "active"

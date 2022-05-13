@@ -1,27 +1,24 @@
 class RidesController < ApplicationController
-  before_action :user_from_cookie
-  before_action :set_ride, only: %i[ show edit update destroy book ]
+  before_action :set_ride, only: %i[ show edit update destroy book toggle_active ]
 
   def search
-    @rides = Ride.search(params).order(:date)
+    @rides = Ride.search(params).where.not(driver: @current_user).order(date: :desc)
   end
 
   def book
-    respond_to do |format|
-      if @ride.book_seat
-        format.html { redirect_to ride_url(@ride), notice: "Ride was successfully booked." }
-      else
-        format.html { render :search, status: :unprocessable_entity }
-      end
+    if @ride.book_seat
+      redirect_to ride_url(@ride), notice: "Ride was successfully booked."
+    else
+      render :search, status: :unprocessable_entity
     end
   end
 
   def index
-    @rides = Ride.availables.where(driver: @current_user).order(:date)
+    Ride.deactivate_past_rides(@current_user)
+    @rides = Ride.all.where(driver: @current_user).order(date: :desc)
   end
 
   def show
-    @waypoints = @ride.waypoints
   end
 
   def new
@@ -34,36 +31,54 @@ class RidesController < ApplicationController
   def create
     @ride = Ride.new(ride_params)
     @ride.driver_id = @current_user.id
-    @ride.destination_neighborhood = params[:destination]
-    @ride.desparture_neighborhood = params[:departure]
-    respond_to do |format|
-      if @ride.save
-
-
-        format.html { redirect_to user_ride_url(@current_user, @ride), notice: "Ride was successfully created." }
-      else
-        format.html { render :new, status: :unprocessable_entity }
+    if @ride.to_college
+      @ride.destination_neighborhood = @ride.college.neighborhood
+    else
+      @ride.departure_neighborhood = @ride.college.neighborhood
+    end
+    if @ride.save
+      @departure = @ride.create_departure(departure_ride_params)
+      @destination = @ride.create_destination(destination_ride_params)
+      if @departure.errors.any? or @destination.errors.any?
+        @ride.destroy
+        @departure.destroy if @departure.errors.any?
+        @destination.destroy if @destination.errors.any?
+        render :new, status: :unprocessable_entity 
+      else  
+        redirect_to new_ride_waypoints_url(@ride), notice: "Carona criada com sucesso." 
       end
+    else
+      render :new, status: :unprocessable_entity 
     end
   end
 
   def update
-    respond_to do |format|
-      ride_params[driver_id: @current_user.id]
-      if @ride.update(ride_params)
-        format.html { redirect_to user_ride_url(@current_user, @ride), notice: "Ride was successfully updated." }
+    if @ride.update(ride_params)
+      @destination = @ride.update_destination(destination_ride_params)
+      @departure = @ride.update_departure(departure_ride_params)
+      if @departure.errors.any? or @destination.errors.any?
+        render :edit, status: :unprocessable_entity
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        redirect_to new_ride_waypoints_url(@ride), notice: "Corrida atualizada com sucesso."
       end
+    else
+      render :edit, status: :unprocessable_entity 
     end
   end
 
   def destroy
     @ride.destroy
-    respond_to do |format|
-      format.html { redirect_to user_rides_url(@current_user), notice: "Ride was successfully destroyed." }
+    redirect_to user_rides_url(@current_user), notice: "Corrida apagada com sucesso."
+  end
+
+  def toggle_active
+    if @ride.update(active: not(@ride.active?))
+      redirect_to user_rides_url(@current_user), notice: "Corrida #{@ride.active? ? "reativada" : "desativada"} com sucesso." 
+    else
+      render :index
     end
   end
+  
 
   private
     def set_ride
@@ -71,6 +86,32 @@ class RidesController < ApplicationController
     end
 
     def ride_params
-      params.require(:ride).permit(:price, :seats, :observation, :college_id, :time, :date, :to_college, :destination, :departure)
+      params.require(:ride).permit(
+        :price, 
+        :seats, 
+        :observation, 
+        :college_id, 
+        :time, 
+        :date, 
+        :to_college, 
+        :destination_neighborhood,
+        :departure_neighborhood
+      )
+    end
+
+    def destination_ride_params
+      params.require(:ride).permit( 
+        :destination_neighborhood, 
+        :destination_address,
+        :destination_city
+      )
+    end
+
+    def departure_ride_params
+      params.require(:ride).permit(
+        :departure_neighborhood,
+        :departure_address,
+        :departure_city
+      )
     end
 end

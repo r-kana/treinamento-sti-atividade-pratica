@@ -1,9 +1,12 @@
 class CollegesController < ApplicationController
-  before_action :user_from_cookie
-  before_action :set_college, only: [:update, :toggle_activate]
+  before_action :set_college, only: [:edit, :update, :toggle_active]
   
   def index
     @colleges = College.all.order(:name)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @colleges }
+    end
   end
 
   def new
@@ -16,32 +19,34 @@ class CollegesController < ApplicationController
   def create 
     @college = College.new(college_params)
     @college.active ||= true
-    if @college.save
-      redirect_to colleges_url, notice: 'Campus criado com sucesso.' 
-    else
-      render :new 
+    respond_to do |format|
+      if @college.save
+        format.html { redirect_to colleges_url, notice: 'Campus criado com sucesso.' }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
   def update
-    if @college.update(colleg_params)
-      redirect_to college_url(@college)
+    if @college.update(college_params)
+      redirect_to colleges_url
     else
       render :edit
     end
   end
 
-  def toggle_activate
+  def toggle_active
     if @college.update(active: not(@college.active?))
       redirect_to colleges_url, notice: "Campus #{@college.active? ? "reativado" : "desativado"} excluído com sucesso."
     else
-      render :index, status: :unprocessable_entity 
+      render :index, status: :unprocessable_entity
     end
   end
 
   private
   def set_college
-    College.find params[:id]
+    @college = College.find params[:id]
   end
 
   def college_params

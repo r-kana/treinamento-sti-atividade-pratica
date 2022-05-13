@@ -1,4 +1,10 @@
 <p id="notice"><%= notice %></p>
+<h1>Detalhes da Carona</h1>
 
-<%= link_to 'Edit', edit_user_ride_path(@driver, @ride) %> |
-<%= link_to 'Back', user_rides_path(@driver) %>
+<%= render partial: 'full_ride_card' %>
+
+<% if @ride.driver_id == @current_user.id %>
+  <%= link_to 'Voltar', user_rides_path(@current_user), class: 'btn btn-secondary' %>
+<% else %>
+  <%= link_to 'Voltar', search_rides_path, class: 'btn btn-secondary' %>
+<% end %>
