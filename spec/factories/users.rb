@@ -4,7 +4,6 @@ FactoryBot.define do
     cpf { "#{Faker::Number.number(digits: 11)}" }
     active { true }
     admin { false } 
-    password { "#{Faker::Number.number(digits: 8)}" }
 
     trait :is_admin do
       admin { true }
