@@ -11,7 +11,7 @@
 
   def create
     if Waypoint.create_list params.permit!
-      redirect_to user_ride_path(@current_user, @ride)
+      redirect_to user_ride_path(@logged_user, @ride)
     else
       render :new, notice: "Um erro ocorreu ao tentar salvar as paradas", status: :unprocessable_entity
     end

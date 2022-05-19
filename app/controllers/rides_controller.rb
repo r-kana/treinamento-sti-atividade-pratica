@@ -2,7 +2,7 @@ class RidesController < ApplicationController
   before_action :set_ride, only: %i[ show edit update destroy book toggle_active ]
 
   def search
-    @rides = Ride.search(params).where.not(driver: @current_user).order(date: :desc)
+    @rides = Ride.search(params).where.not(driver: @logged_user).order(date: :desc)
   end
 
   def book
@@ -14,8 +14,8 @@ class RidesController < ApplicationController
   end
 
   def index
-    Ride.deactivate_past_rides(@current_user)
-    @rides = Ride.all.where(driver: @current_user).order(date: :desc)
+    Ride.deactivate_past_rides(@logged_user)
+    @rides = Ride.all.where(driver: @logged_user).order(date: :desc)
   end
 
   def show
@@ -30,7 +30,7 @@ class RidesController < ApplicationController
 
   def create
     @ride = Ride.new(ride_params)
-    @ride.driver_id = @current_user.id
+    @ride.driver_id = @logged_user.id
     if @ride.to_college
       @ride.destination_neighborhood = @ride.college.neighborhood
     else
@@ -68,12 +68,12 @@ class RidesController < ApplicationController
 
   def destroy
     @ride.destroy
-    redirect_to user_rides_url(@current_user), notice: "Corrida apagada com sucesso."
+    redirect_to user_rides_url(@logged_user), notice: "Corrida apagada com sucesso."
   end
 
   def toggle_active
     if @ride.update(active: not(@ride.active?))
-      redirect_to user_rides_url(@current_user), notice: "Corrida #{@ride.active? ? "reativada" : "desativada"} com sucesso." 
+      redirect_to user_rides_url(@logged_user), notice: "Corrida #{@ride.active? ? "reativada" : "desativada"} com sucesso." 
     else
       render :index
     end

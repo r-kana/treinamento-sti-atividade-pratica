@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   end
 
   def rides
-    @rides = @current_user.rides
+    @rides = @logged_user.rides
   end
 
   def show

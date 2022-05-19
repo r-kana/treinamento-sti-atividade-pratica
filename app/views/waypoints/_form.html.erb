@@ -30,7 +30,7 @@
   </ol>
   <div class="d-flex mb-4">
     <%= form.submit 'Salvar', class: 'btn btn-success me-4' %>
-    <%= link_to 'Voltar', edit_user_ride_path(@current_user, @ride), class: 'btn btn-secondary' %>
+    <%= link_to 'Voltar', edit_user_ride_path(@logged_user, @ride), class: 'btn btn-secondary' %>
   </div>
 <% end %>
 <input type='hidden', value="<%= @ride.id %>" id='ride-id'>

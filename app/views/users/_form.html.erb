@@ -11,7 +11,7 @@
 <section class='mb-5'>
   <div class='d-flex flex-column w-25 ms-3'>
     <%= form_with model: user do |form| %>
-      <% if @current_user.admin? %>
+      <% if @logged_user.admin? %>
         <%= form.label :name, "Nome:", class: 'mb-2 form-label' %>
         <%= form.text_field :name, class: 'form-control mb-3 form-control-sm' %>
         <%= form.label :cpf, "CPF:", class: 'mb-2' %>

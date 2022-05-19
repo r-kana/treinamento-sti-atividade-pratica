@@ -5,7 +5,7 @@
         <%= link_to image_tag('logo_uff.png', width:"60", height:"30"), home_path, class:"navbar-brand", value:"Coranas" %>
       </li>
 
-    <% if @current_user.admin? %>
+    <% if @logged_user.admin? %>
 
       <li class="nav-item">
         <%= link_to 'Dashboard', home_path, class: "nav-link" %>
@@ -27,7 +27,7 @@
         <%= link_to 'Dashboard', home_path, class: "nav-link" %>
       </li>
       <li class="nav-item">
-        <%= link_to 'Minhas Caronas', user_rides_path(@current_user), class: "nav-link" %>
+        <%= link_to 'Minhas Caronas', user_rides_path(@logged_user), class: "nav-link" %>
       </li>
       <li class="nav-item">
         <%= link_to "Pesquisar Caronas", search_rides_path, class:"nav-link" %>
@@ -37,7 +37,7 @@
 
     </ul>
     <div>
-      <p class='m-0 me-2'><%= @current_user.name %></p>
+      <p class='m-0 me-2'><%= @logged_user.name %></p>
       <%= link_to "Sair", logout_path, class:"nav-link" %>
     </div>
   </div>
