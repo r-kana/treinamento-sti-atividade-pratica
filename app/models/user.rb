@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  has_secure_password
   validates :name, :cpf, :active, presence: true, on: :create
   validates :cpf, format: { with: /\d{11}/s }, uniqueness: true
   validates :active, :admin, inclusion: { in: [true, false] }, on: :update

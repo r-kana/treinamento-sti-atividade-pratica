@@ -25,7 +25,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_create_params)
-    @user.password = user_create_params[:cpf]
     @user.active = true
     if @user.save
       redirect_to users_url, notice: "Usuário criado com sucesso."
