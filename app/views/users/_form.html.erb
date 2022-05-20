@@ -14,8 +14,8 @@
       <% if @logged_user.admin? %>
         <%= form.label :name, "Nome:", class: 'mb-2 form-label' %>
         <%= form.text_field :name, class: 'form-control mb-3 form-control-sm' %>
-        <%= form.label :cpf, "CPF:", class: 'mb-2' %>
-        <%= form.text_field :cpf, placeholder: '111.111.111-11', class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :iduff, "IdUFF:", class: 'mb-2' %>
+        <%= form.text_field :iduff, placeholder: '111.111.111-11', class: 'form-control mb-3 form-control-sm' %>
         <% if user.id %>
           <%= form.label :password, "Senha:", class: 'mb-2' %>
           <%= form.password_field :password, class: 'form-control mb-3 form-control-sm'%>
@@ -26,8 +26,8 @@
       <% else %>
         <%= form.label :name, "Nome:", class: 'mb-2' %>
         <%= form.text_field :name, readonly: true, class: 'form-control mb-3 form-control-sm' %>
-        <%= form.label :cpf, "CPF:", class: 'mb-2' %>
-        <%= form.text_field :cpf, readonly: true, class: 'form-control mb-3 form-control-sm' %>
+        <%= form.label :iduff, "IdUFF:", class: 'mb-2' %>
+        <%= form.text_field :iduff, readonly: true, class: 'form-control mb-3 form-control-sm' %>
         <%= form.label :password, "Senha:", class: 'mb-2' %>
         <%= form.password_field :password, class: 'form-control mb-3 form-control-sm'%>
       <% end %>

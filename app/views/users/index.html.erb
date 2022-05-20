@@ -9,7 +9,7 @@
     <%= form_with url: users_url, method: :get do |form| %>
       <div class="autocomplete">
         <div class='input-group'>
-          <%= form.text_field :q, class:'form-control', placeholder:'Nome ou CPF', autocomplete: 'off' %>
+          <%= form.text_field :q, class:'form-control', placeholder:'Nome ou IdUFF', autocomplete: 'off' %>
           <%= form.submit 'Procurar', class:'btn btn-outline-info' %>
         </div>
       </div>

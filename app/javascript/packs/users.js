@@ -2,7 +2,7 @@ const users = [];
 $.get("/users.json", function(data, _){
   for(let i = 0; i < data.length; i++) {
     users.push(data[i].name);
-    users.push(data[i].cpf);
+    users.push(data[i].iduff);
   }
 });
 

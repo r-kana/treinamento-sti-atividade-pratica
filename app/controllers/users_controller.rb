@@ -56,10 +56,10 @@ class UsersController < ApplicationController
     end
 
     def user_update_params
-      params.require(:user).permit(:name, :cpf, :active, :admin)
+      params.require(:user).permit(:name, :iduff, :active, :admin)
     end
 
     def user_create_params
-      params.require(:user).permit(:name, :cpf, :admin)
+      params.require(:user).permit(:name, :iduff, :admin)
     end
 end

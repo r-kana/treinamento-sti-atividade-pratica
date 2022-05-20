@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.feature 'Caronas', type: :feature, js: true do
-  let!(:admin){ create(:user, :is_admin, cpf: '00000000000') }
-  let!(:college){ create(:college, neighborhood: "Inga") }
+  let!(:admin){ create(:user, :is_admin) }
+  let!(:college){ create(:college) }
+  let!(:neighborhood) { college.neighborhood.split[0] }
 
   describe 'Pesquisar uma carona' do
     before do
@@ -22,7 +23,9 @@ RSpec.feature 'Caronas', type: :feature, js: true do
 
       it 'deve realizar a pesquisa via query params' do
         click_button('Procurar')
-        expect(page).to have_current_path("/rides?departure_kind=college&ride%5Bneighborhood%5D=#{college.neighborhood}&destination=&commit=Procurar")
+        neighborhood = college.neighborhood.split[0]
+        path = "/rides?departure_kind=college&ride%5Bneighborhood%5D=#{neighborhood}&destination=&commit=Procurar"
+        expect(page).to have_current_path(path)
       end
 
       context 'com destino em lugar aleatório' do
@@ -30,6 +33,7 @@ RSpec.feature 'Caronas', type: :feature, js: true do
           destination_neighborhood = "Centro"
           fill_in('destination', with: destination_neighborhood)
           click_button('Procurar')
+          neighborhood = 
           path = "/rides?departure_kind=college&ride%5Bneighborhood%5D=#{college.neighborhood}&destination=#{destination_neighborhood}&commit=Procurar"
           expect(page).to have_current_path(path)
         end

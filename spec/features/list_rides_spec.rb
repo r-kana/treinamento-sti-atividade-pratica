@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Caronas', type: :feature, js: true do
-  let!(:admin){ create(:user, :is_admin, cpf: '00000000000') }
-  let!(:user){ create(:user, cpf: '00000000001', name: "Usuário Teste") }
+  let!(:admin){ create(:user, :is_admin, iduff: '00000000000') }
+  let!(:user){ create(:user, iduff: '00000000001', name: "Usuário Teste") }
   let!(:college){ create(:college, neighborhood: "Inga") }
 
   describe 'Listar minhas caronas' do
