@@ -1,5 +1,6 @@
 class RidesController < ApplicationController
   before_action :set_ride, only: %i[ show edit update destroy book toggle_active ]
+  before_action :set_user, only: [:index, :show, :new, :edit, :create, :destroy, :toggle_active]
 
   def search
     @rides = Ride.search(params).where.not(driver: @logged_user).order(date: :desc)
@@ -83,6 +84,10 @@ class RidesController < ApplicationController
   private
     def set_ride
       @ride = Ride.find(params[:id])
+    end
+
+    def set_user 
+      @logged_user = User.find(params[:user_id])
     end
 
     def ride_params

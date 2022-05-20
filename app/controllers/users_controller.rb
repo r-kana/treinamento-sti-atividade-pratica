@@ -42,7 +42,8 @@ class UsersController < ApplicationController
   end
 
   def toggle_active
-    if @user.update(active: not(@user.active?))
+    @users = User.search_query(nil)
+    if @user.update!(active: not(@user.active?))
       redirect_to users_url, notice: "Usuário #{@user.active? ? "reativado" : "desativado"} com sucesso." 
     else 
       render :index, status: :unprocessable_entity 
@@ -55,7 +56,7 @@ class UsersController < ApplicationController
     end
 
     def user_update_params
-      params.require(:user).permit(:name, :cpf, :password, :active, :admin)
+      params.require(:user).permit(:name, :cpf, :active, :admin)
     end
 
     def user_create_params

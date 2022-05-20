@@ -1,5 +1,5 @@
 test:
-  issuer: 'test '
+  issuer: 'test'
   secret: 'test'
   identifier: 'test'
 

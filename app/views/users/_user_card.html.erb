@@ -1,4 +1,4 @@
-<div class='card mb-4'>
+<div class='card mb-4' id='card-<%= user.id %>'>
   <div class='card-body d-flex flex-row justify-content-between container align-items-center'>
     <div class='d-flex flex-column justify-content-between'>
       <div class='d-flex align-items-center'>
@@ -11,9 +11,9 @@
       <% if user.id != logged_user.id %>
         <%= link_to 'Editar', edit_user_path(user), class: 'btn btn-outline-warning mb-3' %>
         <% if user.active? %>
-          <%= link_to 'Desativar', user_toggle_active_path(user), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-danger' %>
+          <%= link_to 'Desativar', user_toggle_active_path(user), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-danger', id: "toggle-active-#{user.id}" %>
         <% else %>
-          <%= link_to 'Reativar', user_toggle_active_path(user), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-success' %>
+          <%= link_to 'Reativar', user_toggle_active_path(user), data: {confirm: "Tem certeza?"}, class: 'btn btn-outline-success', id: "toggle-active-#{user.id}" %>
         <% end %>
       <% else %>
         <%= link_to 'Editar', edit_user_path(user), class: 'btn btn-outline-warning' %>

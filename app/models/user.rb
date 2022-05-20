@@ -1,6 +1,9 @@
 class User < ApplicationRecord
-  validates :name, :cpf, :active, presence: true, on: :create
-  validates :cpf, format: { with: /\d{11}/s }, uniqueness: true
+  validates :name, :cpf,
+    presence: { message: "não pode ficar vazio" }
+  validates :cpf, 
+    format: { with: /\d{11}/s, message: 'é inválido' }, 
+    uniqueness: { message: 'é inválido' }
   validates :active, :admin, inclusion: { in: [true, false] }, on: :update
 
   has_many :rides, through: :reservation
