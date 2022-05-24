@@ -24,7 +24,7 @@ RSpec.describe 'Colleges', type: :request do
   let!(:admin) { create(:user, :is_admin, password: '123')}
 
   def login user
-    post "/login", params: { cpf: user.cpf, password: '123' }
+    post "/login", params: { iduff: user.iduff, password: '123' }
   end 
   before(:each) { login admin }
 

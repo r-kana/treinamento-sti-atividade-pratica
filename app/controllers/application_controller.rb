@@ -1,11 +1,8 @@
 class ApplicationController < ActionController::Base
-  before_action :user_from_cookie
-
-  def user_from_cookie
-    if cookies.signed[:user_id]
-      @current_user = User.find(cookies.signed[:user_id])
-    else
-      redirect_to welcome_url, notice: "Usuário sem acesso. Login necessário" 
-    end
+  authenticate_with_iduff_keycloak
+  before_action :logged_user
+  
+  def logged_user
+    @logged_user = User.find_by(iduff: current_user.iduff)
   end
 end

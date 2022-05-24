@@ -1,7 +1,9 @@
 class User < ApplicationRecord
-  has_secure_password
-  validates :name, :cpf, :active, presence: true, on: :create
-  validates :cpf, format: { with: /\d{11}/s }, uniqueness: true
+  validates :name, :iduff,
+    presence: { message: "não pode ficar vazio" }
+  validates :iduff, 
+    format: { with: /\d{11}/s, message: 'é inválido' }, 
+    uniqueness: { message: 'é inválido' }
   validates :active, :admin, inclusion: { in: [true, false] }, on: :update
 
   has_many :rides, through: :reservation
@@ -22,7 +24,7 @@ class User < ApplicationRecord
     if query.nil?
       User.all.order(:name)
     else
-      User.where("name LIKE :q OR cpf LIKE :q OR iduff LIKE :q", q: "#{query}%").order(:name).limit(20)
+      User.where("name LIKE :q OR iduff LIKE :q OR iduff LIKE :q", q: "#{query}%").order(:name).limit(20)
     end
   end
   

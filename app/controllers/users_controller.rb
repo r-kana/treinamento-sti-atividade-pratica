@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   end
 
   def rides
-    @rides = @current_user.rides
+    @rides = @logged_user.rides
   end
 
   def show
@@ -25,7 +25,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_create_params)
-    @user.password = user_create_params[:cpf]
     @user.active = true
     if @user.save
       redirect_to users_url, notice: "Usuário criado com sucesso."
@@ -43,7 +42,8 @@ class UsersController < ApplicationController
   end
 
   def toggle_active
-    if @user.update(active: not(@user.active?))
+    @users = User.search_query(nil)
+    if @user.update!(active: not(@user.active?))
       redirect_to users_url, notice: "Usuário #{@user.active? ? "reativado" : "desativado"} com sucesso." 
     else 
       render :index, status: :unprocessable_entity 
@@ -56,10 +56,10 @@ class UsersController < ApplicationController
     end
 
     def user_update_params
-      params.require(:user).permit(:name, :cpf, :password, :active, :admin)
+      params.require(:user).permit(:name, :iduff, :active, :admin)
     end
 
     def user_create_params
-      params.require(:user).permit(:name, :cpf, :admin)
+      params.require(:user).permit(:name, :iduff, :admin)
     end
 end

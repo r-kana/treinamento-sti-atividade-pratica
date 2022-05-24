@@ -12,9 +12,11 @@ FactoryBot.define do
   end
   trait :destination do
     kind {:destination}
+    order {0}
   end
   trait :departure do 
     kind {:departure}
+    order {0}
   end
   
 end

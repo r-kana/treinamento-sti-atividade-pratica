@@ -3,8 +3,8 @@
 
 <%= render partial: 'full_ride_card' %>
 
-<% if @ride.driver_id == @current_user.id %>
-  <%= link_to 'Voltar', user_rides_path(@current_user), class: 'btn btn-secondary' %>
+<% if @ride.driver_id == @logged_user.id %>
+  <%= link_to 'Voltar', user_rides_path(@logged_user), class: 'btn btn-secondary' %>
 <% else %>
   <%= link_to 'Voltar', search_rides_path, class: 'btn btn-secondary' %>
 <% end %>

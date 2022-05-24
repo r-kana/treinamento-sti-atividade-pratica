@@ -1,7 +1,7 @@
 require 'faker'
 
-admin = User.create!(name: 'Admin', cpf: '11111111110', admin: true, active: true, password: '123')
-user = User.create!(name: 'User', cpf: '11111111114', admin: false, active: true, password: '123')
+admin = User.create!(name: 'Admin', iduff: '11111111110', admin: true, active: true)
+user = User.create!(name: 'User', iduff: '11111111114', admin: false, active: true)
 college = College.create!(
   name: Faker::IndustrySegments.sector,
   phone_number: "#{Faker::Number.number(digits: 2)}#{Faker::Number.number(digits: 4)}-#{Faker::Number.number(digits: 4)}",

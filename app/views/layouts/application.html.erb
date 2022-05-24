@@ -11,9 +11,7 @@
   </head>
 
   <body>
-    <% if @current_user %>
-      <%= render partial: 'shared/navbar' %>
-    <% end %>
+    <%= render partial: 'shared/navbar' %>
     <div class='container'>
       <%= yield %>
     </div>

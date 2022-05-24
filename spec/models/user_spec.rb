@@ -17,8 +17,8 @@ RSpec.describe User, type: :model do
     it 'should be valid with valid params' do
       expect(user.valid?).to be(true)
     end
-    it "should be invalid with unformated cpf" do
-      user = create(:user, cpf: '11.111.1-111')
+    it "should be invalid with unformated iduff" do
+      user = create(:user, iduff: '11.111.1-111')
       expect(user.valid?).to be(false)
     end
     it 'should be invalid without params' do

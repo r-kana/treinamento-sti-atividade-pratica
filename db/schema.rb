@@ -57,9 +57,8 @@ ActiveRecord::Schema.define(version: 2022_05_06_062335) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "password_digest"
     t.string "name"
-    t.string "cpf"
+    t.string "iduff"
     t.boolean "admin"
     t.boolean "active"
     t.datetime "created_at", precision: 6, null: false

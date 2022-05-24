@@ -19,11 +19,11 @@ RSpec.describe "/users", type: :request do
   # adjust the attributes here as well.
   let!(:user) {create(:user)}
   let(:valid_attributes) {
-    {name: "Nome", cpf: "111.111.111-11", admin: false}
+    {name: "Nome", iduff: "111.111.111-11", admin: false}
   }
 
   let(:invalid_attributes) {
-    {name: "Nome", cpf: "11.1.11-11", admin: false}
+    {name: "Nome", iduff: "11.1.11-11", admin: false}
   }
 
   describe "GET /index" do
@@ -75,10 +75,10 @@ RSpec.describe "/users", type: :request do
         expect(response).to render_template(:show)
       end
 
-      it "to set password to cpf" do
+      it "to set password to iduff" do
         post users_url, params: { user: valid_attributes }
         user = User.last
-        expect(user.authenticate(user.cpf)).to be(true)
+        expect(user.authenticate(user.iduff)).to be(true)
       end
 
     end
@@ -101,7 +101,7 @@ RSpec.describe "/users", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        {name: "Modificado", cpf: "111.111.111-11", admin: false}
+        {name: "Modificado", iduff: "111.111.111-11", admin: false}
       }
 
       it "updates the requested user" do
