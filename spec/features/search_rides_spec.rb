@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Caronas', type: :feature, js: true do
   let!(:admin){ create(:user, :is_admin) }
   let!(:college){ create(:college) }
-  let!(:neighborhood) { college.neighborhood.split[0] }
+  let!(:neighborhood) { college.neighborhood.gsub(' ', '+') }
+  let(:driver) { create(:user)}
 
   describe 'Pesquisar uma carona' do
     before do
@@ -23,9 +24,35 @@ RSpec.feature 'Caronas', type: :feature, js: true do
 
       it 'deve realizar a pesquisa via query params' do
         click_button('Procurar')
-        neighborhood = college.neighborhood.split[0]
         path = "/rides?departure_kind=college&ride%5Bneighborhood%5D=#{neighborhood}&destination=&commit=Procurar"
         expect(page).to have_current_path(path)
+      end
+
+      xit 'deve retornar caronas com origem certa' do
+        5.times do 
+          ride = create(:ride, 
+            college_id: college.id, 
+            driver_id: driver.id, 
+            departure_neighborhood: college.neighborhood
+          )
+          create(:waypoint, :college, :departure, 
+            neighborhood: college.neighborhood,
+            ride_id: ride.id
+          )
+          create(:waypoint, :destination, ride_id: ride.id)
+        end
+
+        click_button('Procurar')
+        # TODO realizar screenshot
+        list = []
+        p all('.card')
+        page.all(:css, '.departure-name').each do |el|
+          index = el.text.index(' ') + 1
+          lenght = el.text.length
+          list << el.text[index..length]
+        end
+        # p list
+        expect(list).to include(/"#{college.neighborhood}"/).exactly(5).times
       end
 
       context 'com destino em lugar aleatório' do
@@ -33,8 +60,7 @@ RSpec.feature 'Caronas', type: :feature, js: true do
           destination_neighborhood = "Centro"
           fill_in('destination', with: destination_neighborhood)
           click_button('Procurar')
-          neighborhood = 
-          path = "/rides?departure_kind=college&ride%5Bneighborhood%5D=#{college.neighborhood}&destination=#{destination_neighborhood}&commit=Procurar"
+          path = "/rides?departure_kind=college&ride%5Bneighborhood%5D=#{neighborhood}&destination=#{destination_neighborhood}&commit=Procurar"
           expect(page).to have_current_path(path)
         end
       end
@@ -52,7 +78,7 @@ RSpec.feature 'Caronas', type: :feature, js: true do
 
       it 'deve realizar a pesquisa via query params' do
         click_button('Procurar')
-        path = "/rides?departure=&destination_kind=college&ride%5Bneighborhood%5D=#{college.neighborhood}&commit=Procurar"
+        path = "/rides?departure=&destination_kind=college&ride%5Bneighborhood%5D=#{neighborhood}&commit=Procurar"
         expect(page).to have_current_path(path)
       end
 
@@ -61,7 +87,7 @@ RSpec.feature 'Caronas', type: :feature, js: true do
           departure_neighborhood = "Centro"
           fill_in('departure', with: departure_neighborhood)
           click_button('Procurar')
-          path = "/rides?departure=#{departure_neighborhood}&destination_kind=college&ride%5Bneighborhood%5D=#{college.neighborhood}&commit=Procurar"
+          path = "/rides?departure=#{departure_neighborhood}&destination_kind=college&ride%5Bneighborhood%5D=#{neighborhood}&commit=Procurar"
           expect(page).to have_current_path(path)
         end
       end
