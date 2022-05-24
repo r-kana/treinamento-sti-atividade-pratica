@@ -6,6 +6,8 @@ RSpec.feature 'Caronas', type: :feature, js: true do
   let!(:neighborhood) { college.neighborhood.gsub(' ', '+') }
   let(:driver) { create(:user)}
 
+  
+
   describe 'Pesquisar uma carona' do
     before do
       login_user(admin)
@@ -28,7 +30,7 @@ RSpec.feature 'Caronas', type: :feature, js: true do
         expect(page).to have_current_path(path)
       end
 
-      xit 'deve retornar caronas com origem certa' do
+      it 'deve retornar caronas com origem certa' do
         5.times do 
           ride = create(:ride, 
             college_id: college.id, 
@@ -39,20 +41,26 @@ RSpec.feature 'Caronas', type: :feature, js: true do
             neighborhood: college.neighborhood,
             ride_id: ride.id
           )
-          create(:waypoint, :destination, ride_id: ride.id)
+          waypoint = create(:waypoint, :destination, ride_id: ride.id)
+          ride.update(destination_neighborhood: waypoint.neighborhood)
         end
 
+        query = {
+          departure_kind: 'college', 
+          ride: {
+            neighborhood: college.neighborhood
+          }
+        }
+        p Ride.search(query).select(:id, :college_id, :driver_id, :to_college)
+
         click_button('Procurar')
-        # TODO realizar screenshot
+        
         list = []
-        p all('.card')
+        p all(:css, '.card')
         page.all(:css, '.departure-name').each do |el|
-          index = el.text.index(' ') + 1
-          lenght = el.text.length
-          list << el.text[index..length]
+          list << el.text.split(',')[1].strip
         end
-        # p list
-        expect(list).to include(/"#{college.neighborhood}"/).exactly(5).times
+        expect(list).to include(/#{college.neighborhood}/).exactly(5).times
       end
 
       context 'com destino em lugar aleatório' do

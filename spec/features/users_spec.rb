@@ -63,8 +63,8 @@ RSpec.feature 'Usuários', type: :feature, js: true do
     end
 
     it 'deve ter inputs preenchidos' do
-      expect(find('#user_name').value).to eq('Usuário Teste')
-      expect(find('#user_iduff').value).to eq('00000000001')
+      expect(find('#user_name').value).to eq(user.name)
+      expect(find('#user_iduff').value).to eq(user.iduff)
     end
 
     context 'com parâmetros válidos' do 

@@ -12,5 +12,3 @@ module LoginHelper
     config.include LoginHelper
   end
 end
-
-
