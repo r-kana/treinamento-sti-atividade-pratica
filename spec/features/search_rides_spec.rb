@@ -43,12 +43,13 @@ RSpec.feature 'Caronas', type: :feature, js: true do
           waypoint = create(:waypoint, :destination, ride_id: ride.id)
           ride.update(destination_neighborhood: waypoint.neighborhood)
         end
-
+        page.save_screenshot('search-ride.png')
         click_button('Procurar')
         list = []
         page.all(:css, '.departure-name').each do |el|
           list << el.text.split(',')[1].strip
         end
+        page.save_screenshot('search-ride(result).png')
         expect(list).to include(/#{college.neighborhood}/).exactly(5).times
       end
 
