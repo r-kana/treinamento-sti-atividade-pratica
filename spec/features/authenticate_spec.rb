@@ -8,6 +8,7 @@ RSpec.feature 'Autenticação', type: :feature do
         create(:user)
         login_user(create(:user))
         visit('/')
+        page.save_screenshot('login.png')
         expect(page).to have_content('HOME')
       end
     end
