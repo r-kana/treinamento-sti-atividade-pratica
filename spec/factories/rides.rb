@@ -3,8 +3,8 @@ FactoryBot.define do
     observation { Faker::Lorem.paragraph }
     seats { 4 }
     number_of_passagers { 0 } 
-    date { Date.today + 7 }
-    time { Time.now }
+    date { Date.today + Faker::Number.between(from: 1, to: 10) }
+    time { Time.now + Faker::Number.between(from: 1800, to: 3600) }
     to_college { false }
     full { false }
     active { true }
