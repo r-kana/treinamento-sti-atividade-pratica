@@ -10,7 +10,7 @@
         <h6 class="card-title m-0 ms-2 me-2 destination-name">Destino: <%= address_format(ride.destination) %></h6>
         <p class="fw-bold text-primary m-0"><%= ride.to_college ? "Campus" : nil %></p>
       </div>
-      <h6 class="card-subtitle mb-3 ms-2 text-muted" id='date'>Data: <%= "#{ride.date.strftime("%d-%m-%y")} - #{ride.time.strftime("%R")}" %></h6>
+      <h6 class="card-subtitle mb-3 ms-2 text-muted ride-date" id='date'>Data: <%= "#{ride.date.strftime("%d-%m-%y")} - #{ride.time.strftime("%R")}" %></h6>
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Assentos totais: <%= ride.seats %></h6>
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Assentos disponives: <%= ride.seats - ride.number_of_passagers %></h6>
       <h6 class="card-subtitle mb-3 ms-2 text-muted">Preço: <%= ride.price %></h6>

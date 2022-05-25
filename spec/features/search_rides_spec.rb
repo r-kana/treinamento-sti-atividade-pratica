@@ -6,7 +6,6 @@ RSpec.feature 'Caronas', type: :feature, js: true do
   let!(:neighborhood) { college.neighborhood.gsub(' ', '+') }
   let(:driver) { create(:user)}
 
-  
 
   describe 'Pesquisar uma carona' do
     before do
@@ -45,18 +44,8 @@ RSpec.feature 'Caronas', type: :feature, js: true do
           ride.update(destination_neighborhood: waypoint.neighborhood)
         end
 
-        query = {
-          departure_kind: 'college', 
-          ride: {
-            neighborhood: college.neighborhood
-          }
-        }
-        p Ride.search(query).select(:id, :college_id, :driver_id, :to_college)
-
         click_button('Procurar')
-        
         list = []
-        p all(:css, '.card')
         page.all(:css, '.departure-name').each do |el|
           list << el.text.split(',')[1].strip
         end
@@ -65,10 +54,10 @@ RSpec.feature 'Caronas', type: :feature, js: true do
 
       context 'com destino em lugar aleatório' do
         it 'deve ter path com origem em campus e destino aleatório' do
-          destination_neighborhood = "Centro"
-          fill_in('destination', with: destination_neighborhood)
+          destination = Faker::Address.community
+          fill_in('destination', with: destination)
           click_button('Procurar')
-          path = "/rides?departure_kind=college&ride%5Bneighborhood%5D=#{neighborhood}&destination=#{destination_neighborhood}&commit=Procurar"
+          path = "/rides?departure_kind=college&ride%5Bneighborhood%5D=#{neighborhood}&destination=#{destination.gsub(' ', '+')}&commit=Procurar"
           expect(page).to have_current_path(path)
         end
       end
@@ -90,12 +79,33 @@ RSpec.feature 'Caronas', type: :feature, js: true do
         expect(page).to have_current_path(path)
       end
 
+      it 'deve retornar caronas com destino certa' do
+        5.times do 
+          ride = create(:ride, :to_college, 
+            college_id: college.id, 
+            driver_id: driver.id,
+            destination_neighborhood: college.neighborhood
+          )
+          create(:waypoint, :college, :destination, 
+            neighborhood: college.neighborhood,
+            ride_id: ride.id
+          )
+          waypoint = create(:waypoint, :departure, ride_id: ride.id)
+          ride.update(departure_neighborhood: waypoint.neighborhood)
+        end
+
+        click_button('Procurar')
+        list = []
+        page.all(:css, '.destination-name').each {|el| list << el.text.split(',')[1].strip}
+        expect(list).to include(/#{college.neighborhood}/).exactly(5).times
+      end
+
       context 'com origem um lugar aleatório' do
         it 'deve ter path com origem aleatória e destino em campus' do
-          departure_neighborhood = "Centro"
-          fill_in('departure', with: departure_neighborhood)
+          departure = Faker::Address.community
+          fill_in('departure', with: departure)
           click_button('Procurar')
-          path = "/rides?departure=#{departure_neighborhood}&destination_kind=college&ride%5Bneighborhood%5D=#{neighborhood}&commit=Procurar"
+          path = "/rides?departure=#{departure.gsub(' ', '+')}&destination_kind=college&ride%5Bneighborhood%5D=#{neighborhood}&commit=Procurar"
           expect(page).to have_current_path(path)
         end
       end
