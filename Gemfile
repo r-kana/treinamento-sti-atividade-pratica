@@ -1,4 +1,5 @@
-source 'https://app.sti.uff.br/nexus/repository/rubygems/'
+# source 'https://rubygems.org'
+# source 'https://app.sti.uff.br/nexus/repository/rubygems/'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.6'
@@ -33,5 +34,6 @@ group :test do
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver'
   gem 'webdrivers'
+  gem 'simplecov', require: false
 end
 
