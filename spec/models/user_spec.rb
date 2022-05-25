@@ -1,7 +1,8 @@
 require 'rails_helper'
-let!(:user) {create(:user)}
 
 RSpec.describe User, type: :model do
+  let!(:user) {create(:user)}
+  
   it "#active?" do
     expect(user.active?).to be(true)
   end
