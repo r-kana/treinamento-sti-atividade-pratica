@@ -1,7 +1,7 @@
 require 'selenium-webdriver'
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new app, browser: :chrome,
-  options: Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu])
+  options: Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu window-size=1440,768])
 end
 
 Capybara.javascript_driver = :chrome

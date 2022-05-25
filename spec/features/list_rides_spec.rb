@@ -73,6 +73,7 @@ RSpec.feature 'Caronas', type: :feature, js: true do
         visit(user_rides_path(user))
         list = []
         page.all(:css, '.driver-name').each {|el| list << el.text.split(':').last.strip }
+        page.save_screenshot('users-rides.png')
         expect(list).to include(/#{user.name}/).exactly(5).times
       end
     end

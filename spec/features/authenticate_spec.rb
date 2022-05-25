@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Autenticação', type: :feature do
+RSpec.feature 'Autenticação', type: :feature, js: true do
 
-  describe 'login' do
-    context  'com crêdenciais válidas' do
+  describe 'Login' do
+    context  'com credenciais válidas' do
       it 'deve realizar o login com sucesso' do
         create(:user)
         login_user(create(:user))
